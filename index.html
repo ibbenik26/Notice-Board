@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="dh" dir="rtl" class="dark h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School Digital Notice Board - ސްކޫލް ޑިޖިޓަލް ނޯޓިސް ބޯޑު</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Canvas Confetti for Celebration / Honor Slide -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Firebase Compatibility SDKs for Remote Cloud Syncing -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- Dhivehi & Modern English Fonts Setup -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700&display=swap');
+    
+    /* Fallback and Web Font styles for Dhivehi Thaana */
+    @font-face {
+      font-family: 'MV Waheed';
+      src: local('MV Waheed'), local('MV_Waheed'), url('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/notosansthaana/NotoSansThaana-Bold.ttf') format('truetype');
+      font-weight: bold;
+    }
+    
+    @font-face {
+      font-family: 'Faruma';
+      src: local('Faruma'), url('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/notosansthaana/NotoSansThaana-Regular.ttf') format('truetype');
+      font-weight: normal;
+    }
+
+    .font-waheed {
+      font-family: 'MV Waheed', 'MV Boli', 'Noto Sans Thaana', sans-serif;
+    }
+
+    .font-faruma {
+      font-family: 'Faruma', 'MV Boli', 'Noto Sans Thaana', sans-serif;
+    }
+
+    .font-english {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Ice Blue Glassmorphism styling */
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      box-shadow: 0 8px 32px 0 rgba(0, 195, 255, 0.12);
+    }
+
+    .glass-card {
+      background: rgba(30, 41, 59, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .glass-header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* Glowing borders and rings */
+    .glow-cyan {
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+
+    .glow-amber {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+    }
+
+    .glow-red {
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+      animation: pulse-red 2s infinite;
+    }
+
+    @keyframes pulse-red {
+      0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 35px rgba(239, 68, 68, 0.8); }
+    }
+
+    /* Custom Scrollbar for Admin Panels */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.6);
+    }
+
+    /* Ticker Marquee Animation */
+    @keyframes marquee-scroll {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .animate-marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee-scroll 28s linear infinite;
+    }
+
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* Arabic Calligraphy Frame */
+    .islamic-frame {
+      border: 2px solid rgba(234, 179, 8, 0.4);
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+      box-shadow: inset 0 0 30px rgba(234, 179, 8, 0.15), 0 0 25px rgba(56, 189, 248, 0.2);
+    }
+  </style>
+</head>
+
+<body class="h-full bg-slate-950 text-slate-100 font-faruma overflow-hidden select-none">
+
+  <!-- MAIN TV KIOSK DISPLAY VIEW -->
+  <div id="kiosk-view" class="flex flex-col h-screen w-screen bg-gradient-to-br from-slate-950 via-sky-950 to-indigo-950 relative overflow-hidden">
+    
+    <!-- Ambient Background Lighting Effect -->
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- TV TOP HEADER BAR -->
+    <header class="glass-header h-20 px-6 flex items-center justify-between z-20 shrink-0">
+      
+      <!-- School Logo & Header Title -->
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-sky-500/20">
+          <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-sky-400 text-xl font-bold">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+        </div>
+        <div>
+          <h1 class="font-waheed text-2xl font-bold text-sky-300 leading-tight tracking-wide">
+            މާލޭ ސެކަންޑަރީ ސްކޫލް
+          </h1>
+          <p class="font-english text-xs text-slate-400 tracking-wider uppercase font-medium">
+            Male' Secondary School • Digital Notice Board
+          </p>
+        </div>
+      </div>
+
+      <!-- Live Weather, School Contact & Live Time Header Controls -->
+      <div class="flex items-center gap-6 dir-ltr font-english">
+        
+        <!-- Live Open-Meteo Weather Widget for Malé -->
+        <div id="weather-widget" class="flex items-center gap-3 bg-slate-900/60 border border-sky-500/20 px-4 py-2 rounded-xl">
+          <i id="weather-icon" class="fa-solid fa-cloud-sun text-sky-400 text-2xl"></i>
+          <div>
+            <div class="flex items-center gap-1">
+              <span id="weather-temp" class="text-lg font-bold text-slate-100">29°C</span>
+              <span class="text-xs text-sky-300/80">Malé, MV</span>
+            </div>
+            <p id="weather-desc" class="text-[10px] text-slate-400 leading-none">Partly Cloudy</p>
+          </div>
+        </div>
+
+        <!-- School Contact Info Pill -->
+        <div class="hidden xl:flex items-center gap-4 text-xs text-slate-300 bg-slate-900/60 border border-sky-500/20 px-4 py-2 rounded-xl">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-phone text-sky-400"></i>
+            <span>+960 332-1234</span>
+          </div>
+          <span class="text-slate-600">|</span>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-envelope text-sky-400"></i>
+            <span>info@school.edu.mv</span>
+          </div>
+        </div>
+
+        <!-- Live Maldivian Clock (UTC+5) -->
+        <div class="bg-gradient-to-r from-sky-900/50 to-indigo-900/50 border border-sky-400/30 px-5 py-1.5 rounded-xl text-center shadow-md">
+          <div id="live-time" class="text-2xl font-black text-sky-200 tracking-wider">00:00:00</div>
+          <div id="live-date" class="text-[11px] text-sky-300/80 font-waheed">13 އޮކްޓޫބަރު 2026</div>
+        </div>
+
+        <!-- Admin Portal Trigger Button -->
+        <button onclick="openAdminModal()" title="Open Admin Panel (Ctrl+Shift+A)" class="w-10 h-10 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-400/30 text-sky-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md">
+          <i class="fa-solid fa-gear text-lg"></i>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- SLIDE DISPLAY MAIN STAGE AREA -->
+    <main class="flex-1 relative p-6 flex items-center justify-center overflow-hidden">
+      
+      <!-- Slide Container Glass Card -->
+      <div class="w-full h-full max-w-7xl glass-panel rounded-3xl relative overflow-hidden flex flex-col justify-between p-8 border border-sky-400/30 shadow-2xl">
+        
+        <!-- TOP SLIDE HEADER & TIMER PROGRESS -->
+        <div class="flex items-center justify-between border-b border-sky-500/20 pb-4 mb-4 z-10">
+          
+          <!-- Slide Type / Category Badge -->
+          <div class="flex items-center gap-3">
+            <span id="slide-category-badge" class="px-4 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-sm font-bold flex items-center gap-2">
+              <i id="slide-icon" class="fa-solid fa-bullhorn"></i>
+              <span id="slide-category-text">ޚާއްޞަ އިޢުލާން</span>
+            </span>
+            <span id="slide-pinned-indicator" class="hidden px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold">
+              <i class="fa-solid fa-thumbtack mr-1"></i> Pinned
+            </span>
+          </div>
+
+          <!-- Slide Counter & Circular Timer Progress -->
+          <div class="flex items-center gap-4 dir-ltr font-english">
+            <span id="slide-counter-badge" class="text-xs text-sky-300/80 bg-slate-900/80 px-3 py-1 rounded-lg border border-sky-500/20">
+              Slide 1 of 7
+            </span>
+
+            <!-- SVG Circular Progress Ring -->
+            <div class="relative w-9 h-9 flex items-center justify-center">
+              <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                <path class="text-slate-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path id="progress-circle" class="text-sky-400 transition-all duration-100 ease-linear" stroke-dasharray="100, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <button onclick="toggleCarouselPause()" id="pause-btn" class="absolute text-sky-300 text-xs hover:text-white">
+                <i class="fa-solid fa-pause"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- DYNAMIC SLIDE CONTENT DISPLAY AREA -->
+        <div id="slide-content-stage" class="flex-1 flex flex-col justify-center items-center relative overflow-hidden z-10 transition-all duration-500 transform">
+          <!-- Slide template HTML renders here dynamically -->
+        </div>
+
+        <!-- MANUAL NAVIGATION OVERLAY CONTROLS -->
+        <button onclick="prevSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-slate-900/80 hover:bg-sky-600/80 text-sky-300 border border-sky-400/40 flex items-center justify-center transition-all opacity-40 hover:opacity-100 z-20">
+          <i class="fa-solid fa-chevron-right text-lg"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-slate-900/80 hover:bg-sky-600/80 text-sky-300 border border-sky-400/40 flex items-center justify-center transition-all opacity-40 hover:opacity-100 z-20">
+          <i class="fa-solid fa-chevron-left text-lg"></i>
+        </button>
+
+      </div>
+    </main>
+
+    <!-- BOTTOM TICKER MARQUEE BAR -->
+    <footer class="h-16 glass-header border-t border-sky-400/30 flex items-center px-4 z-20 shrink-0 relative overflow-hidden">
+      
+      <!-- Ticker Marquee Title Label -->
+      <div class="z-10 bg-gradient-to-r from-sky-600 to-indigo-700 text-white font-waheed text-lg font-bold px-5 py-2 rounded-xl shadow-lg flex items-center gap-2 shrink-0 border border-sky-300/30">
+        <i class="fa-solid fa-bullhorn text-amber-300 text-base animate-pulse"></i>
+        <span>ޚާއްޞަ ޚަބަރު</span>
+      </div>
+
+      <!-- Scrolling Marquee Viewport -->
+      <div class="flex-1 overflow-hidden relative ml-4 flex items-center h-full">
+        <div id="ticker-marquee-container" class="animate-marquee font-faruma text-xl text-sky-100 font-medium tracking-wide flex items-center whitespace-nowrap">
+          <!-- Scrolling ticker text dynamically rendered here -->
+        </div>
+      </div>
+
+    </footer>
+  </div>
+
+  <!-- ADMIN ACCESS PIN LOGIN MODAL -->
+  <div id="pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="glass-panel p-8 rounded-3xl max-w-sm w-full border border-sky-400/40 shadow-2xl text-center relative font-english">
+      
+      <button onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="w-16 h-16 rounded-2xl bg-sky-500/20 border border-sky-400/40 text-sky-400 flex items-center justify-center text-2xl mx-auto mb-4">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+
+      <h3 class="text-xl font-bold text-sky-200 mb-1">Admin Authentication</h3>
+      <p class="text-xs text-slate-400 mb-6">Enter PIN code to manage notice board (Default: 1234)</p>
+
+      <form onsubmit="handlePinSubmit(event)">
+        <input type="password" id="pin-input" maxlength="6" placeholder="••••" class="w-full text-center text-3xl font-mono tracking-widest py-3 px-4 rounded-xl bg-slate-900/90 border border-sky-500/40 text-sky-300 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30 mb-4" />
+        
+        <p id="pin-error" class="text-xs text-rose-400 hidden mb-4 font-sans">
+          <i class="fa-solid fa-circle-exclamation mr-1"></i> Incorrect PIN. Please try again.
+        </p>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 transition-all">
+          Unlock Admin Portal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN PORTAL MODAL OVERLAY -->
+  <div id="admin-portal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-lg z-50 flex flex-col hidden font-english">
+    
+    <!-- Admin Header Bar -->
+    <header class="glass-header h-16 px-6 flex items-center justify-between border-b border-sky-500/30">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-sky-500/20 border border-sky-400/40 text-sky-400 flex items-center justify-center font-bold">
+          <i class="fa-solid fa-sliders"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-sky-200">Notice Board Admin Portal</h2>
+          <span id="cloud-status-badge" class="text-[11px] text-amber-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Local Mode (Not Synced)
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleFullscreen()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-expand"></i> Fullscreen TV
+        </button>
+        <button onclick="closeAdminPortal()" class="w-9 h-9 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Admin Navigation Tabs -->
+    <div class="bg-slate-900/90 border-b border-sky-500/20 px-6 flex items-center gap-2">
+      <button onclick="switchAdminTab(1)" id="tab-btn-1" class="tab-btn px-5 py-3 border-b-2 border-sky-400 text-sky-300 font-bold text-sm flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-layer-group"></i> 1. Slides Manager
+      </button>
+      <button onclick="switchAdminTab(2)" id="tab-btn-2" class="tab-btn px-5 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-sm flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-plus-circle"></i> 2. Create / Edit Slide
+      </button>
+      <button onclick="switchAdminTab(3)" id="tab-btn-3" class="tab-btn px-5 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-sm flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-scroll"></i> 3. Ticker Marquee
+      </button>
+      <button onclick="switchAdminTab(4)" id="tab-btn-4" class="tab-btn px-5 py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-bold text-sm flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-cloud"></i> 4. Remote Sync & Guide
+      </button>
+    </div>
+
+    <!-- Admin Body Content Containers -->
+    <div class="flex-1 overflow-y-auto p-6">
+      
+      <!-- TAB 1: SLIDES MANAGER -->
+      <div id="admin-tab-1" class="tab-content max-w-6xl mx-auto space-y-6">
+        
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-xl font-bold text-slate-100">Active Notice Slides</h3>
+            <p class="text-xs text-slate-400">Reorder, pin, change duration timers, or hide slides from live rotation</p>
+          </div>
+          <button onclick="prepareNewSlide()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-lg flex items-center gap-2 hover:opacity-90">
+            <i class="fa-solid fa-plus"></i> Create New Slide
+          </button>
+        </div>
+
+        <!-- Slides List Table / Cards -->
+        <div id="slides-manager-list" class="space-y-3">
+          <!-- Slide Manager Rows rendered here via JavaScript -->
+        </div>
+
+      </div>
+
+      <!-- TAB 2: CREATE / EDIT SLIDE EDITOR -->
+      <div id="admin-tab-2" class="tab-content max-w-6xl mx-auto hidden space-y-6">
+        
+        <div class="flex items-center justify-between border-b border-sky-500/20 pb-4">
+          <div>
+            <h3 id="editor-title" class="text-xl font-bold text-slate-100">Create New Notice Slide</h3>
+            <p class="text-xs text-slate-400">Choose a notice template and customize Dhivehi/English content</p>
+          </div>
+          <button onclick="resetEditorForm()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium">
+            Clear / Reset Form
+          </button>
+        </div>
+
+        <!-- Template Selector Buttons -->
+        <div>
+          <label class="block text-xs font-bold uppercase text-sky-400 mb-2">Select Template Type</label>
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            
+            <button type="button" onclick="selectTemplate('image')" id="tpl-btn-image" class="template-selector p-3 rounded-xl border border-sky-500/40 bg-sky-500/10 text-sky-300 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-image text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">1. Full Poster</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ފުރިހަމަ ފޮޓޯ</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('table')" id="tpl-btn-table" class="template-selector p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-table text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">2. Data Table</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ތާވަލު</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('dhua')" id="tpl-btn-dhua" class="template-selector p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-hands-praying text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">3. Dhua of Day</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ދުވަހުގެ ދުޢާ</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('congrats')" id="tpl-btn-congrats" class="template-selector p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-trophy text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">4. Honor Poster</span>
+              <span class="text-[10px] text-slate-400 font-waheed">މަރުޙަބާ</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('alert')" id="tpl-btn-alert" class="template-selector p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-triangle-exclamation text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">5. Urgent Alert</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ކުއްލި އެންގުން</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('infographic')" id="tpl-btn-infographic" class="template-selector p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-chart-pie text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">6. Infographic</span>
+              <span class="text-[10px] text-slate-400 font-waheed">އިންފޯގްރާފިކްސް</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('timeline')" id="tpl-btn-timeline" class="template-selector p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400 transition-all">
+              <i class="fa-solid fa-timeline text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">7. Timeline</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ޓައިމްލައިން</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Editor Form & Live Preview Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Editor Controls Form -->
+          <form id="slide-editor-form" onsubmit="saveSlideForm(event)" class="glass-card p-6 rounded-2xl space-y-4">
+            <input type="hidden" id="edit-slide-id" value="" />
+            <input type="hidden" id="edit-template-type" value="image" />
+
+            <!-- Common Fields -->
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Slide Title (Dhivehi / English)</label>
+                <input type="text" id="field-title" required dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-sky-500/30 text-sky-200 font-waheed focus:outline-none focus:border-sky-400 text-sm" placeholder="ސުރުޚީ ލިޔުއްވާ..." />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Display Category Badge</label>
+                <input type="text" id="field-category" required dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-sky-500/30 text-sky-200 font-faruma focus:outline-none focus:border-sky-400 text-sm" placeholder="ޚާއްޞަ އިޢުލާން" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Duration (Seconds)</label>
+                <input type="number" id="field-duration" min="3" max="120" value="10" required class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-sky-500/30 text-sky-200 focus:outline-none focus:border-sky-400 text-sm" />
+              </div>
+              <div class="flex items-center gap-4 pt-6">
+                <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-300">
+                  <input type="checkbox" id="field-pinned" class="w-4 h-4 rounded border-sky-500 text-sky-500 focus:ring-sky-400 bg-slate-900" />
+                  <span>Pin Slide First</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- TEMPLATE SPECIFIC DYNAMIC INPUT FIELDS -->
+            <div id="dynamic-template-fields" class="border-t border-sky-500/20 pt-4 space-y-4">
+              <!-- Rendered dynamically by JS depending on selected template -->
+            </div>
+
+            <!-- Form Actions -->
+            <div class="pt-4 flex items-center justify-end gap-3 border-t border-sky-500/20">
+              <button type="button" onclick="previewCurrentForm()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-600">
+                <i class="fa-solid fa-eye mr-1"></i> Refresh Preview
+              </button>
+              <button type="submit" class="px-6 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-lg shadow-sky-500/20 hover:opacity-90">
+                <i class="fa-solid fa-floppy-disk mr-1"></i> Save Slide
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Live TV Card Preview Area -->
+          <div class="flex flex-col">
+            <label class="block text-xs font-bold uppercase text-sky-400 mb-2">Live TV Display Card Preview</label>
+            <div class="glass-panel rounded-2xl p-6 border border-sky-400/40 flex-1 flex flex-col justify-center items-center min-h-[360px] relative overflow-hidden" id="live-preview-box">
+              <!-- Live Card Preview Content Renders Here -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TAB 3: TICKER MARQUEE MANAGER -->
+      <div id="admin-tab-3" class="tab-content max-w-4xl mx-auto hidden space-y-6">
+        
+        <div>
+          <h3 class="text-xl font-bold text-slate-100">Scrolling News Marquee Manager</h3>
+          <p class="text-xs text-slate-400">Add, edit, or remove news ticker headlines displayed along the bottom of the TV</p>
+        </div>
+
+        <!-- Add New Marquee Headline Form -->
+        <form onsubmit="addTickerItem(event)" class="glass-card p-4 rounded-2xl flex items-center gap-3 border border-sky-500/30">
+          <input type="text" id="new-ticker-input" required dir="rtl" class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-sky-500/30 text-sky-200 font-faruma focus:outline-none focus:border-sky-400 text-sm" placeholder="އައު ޚަބަރެއް ލިޔުއްވާ..." />
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-lg flex items-center gap-2 hover:opacity-90 shrink-0">
+            <i class="fa-solid fa-plus"></i> Add Headline
+          </button>
+        </form>
+
+        <!-- Current Ticker Headlines List -->
+        <div class="glass-card rounded-2xl p-4 border border-sky-500/30">
+          <h4 class="text-xs font-bold uppercase text-sky-400 mb-3">Current Active Headlines</h4>
+          <div id="ticker-items-list" class="space-y-2">
+            <!-- Ticker headlines items rendered here -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 4: REMOTE SYNC & GUIDE -->
+      <div id="admin-tab-4" class="tab-content max-w-4xl mx-auto hidden space-y-6">
+        
+        <div>
+          <h3 class="text-xl font-bold text-slate-100">Remote Cloud Sync & Hosting Guide</h3>
+          <p class="text-xs text-slate-400">Connect Google Firebase Firestore to update TV screen remotely from any location</p>
+        </div>
+
+        <!-- Firebase Configuration Credentials Form -->
+        <div class="glass-card p-6 rounded-2xl border border-sky-500/30 space-y-4">
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-bold text-sky-300 flex items-center gap-2">
+              <i class="fa-solid fa-fire text-amber-400"></i> Firebase Firestore Credentials
+            </h4>
+            <span id="firebase-status-pill" class="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">
+              Not Connected
+            </span>
+          </div>
+
+          <form onsubmit="saveFirebaseConfig(event)" class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">API Key (apiKey)</label>
+                <input type="text" id="fb-api-key" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Project ID (projectId)</label>
+                <input type="text" id="fb-project-id" placeholder="school-noticeboard-123" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">App ID (appId)</label>
+                <input type="text" id="fb-app-id" placeholder="1:12345678:web:abcd..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="w-full py-2 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg">
+                  Save & Connect Firebase Cloud
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Hosting Instructions Guide Box -->
+        <div class="glass-card p-6 rounded-2xl border border-sky-500/30 space-y-4">
+          <h4 class="text-sm font-bold text-sky-300 flex items-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-up"></i> How to Host Free on GitHub Pages or Netlify
+          </h4>
+          
+          <ol class="list-decimal list-inside text-xs text-slate-300 space-y-2 leading-relaxed">
+            <li><strong>Create Firebase Project:</strong> Go to <a href="https://console.firebase.google.com" target="_blank" class="text-sky-400 underline">console.firebase.google.com</a>, create a free project, enable <strong>Firestore Database</strong> in test mode, and copy your web app credentials above.</li>
+            <li><strong>Host `index.html`:</strong> Create a GitHub repository (e.g., `school-noticeboard`), upload this `index.html` file, and enable <strong>GitHub Pages</strong> in repository settings.</li>
+            <li><strong>Remote Control Screen:</strong> Open the hosted web URL on your TV browser. Then open the same URL on your laptop or phone, enter PIN <code class="bg-slate-900 text-amber-300 px-1.5 py-0.5 rounded">1234</code>, and update notice slides live from anywhere!</li>
+          </ol>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none font-english">
+    <!-- Toast notifications dynamically appended here -->
+  </div>
+
+  <script>
+    /* SLIDE DATA MODEL INITIALIZATION (7 SAMPLE SLIDES FOR ALL TEMPLATES) */
+    const DEFAULT_SLIDES = [
+      {
+        id: "slide-1",
+        template: "image",
+        title: "އިންޓަރ ހައުސް ޤުރްއާން މުބާރާތް 2026",
+        category: "ޚާއްޞަ އިޢުލާން",
+        duration: 12,
+        pinned: true,
+        active: true,
+        image_url: "https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=1200&q=80",
+        caption: "ތާރީޚް: 25 އޮކްޓޫބަރު 2026 | ތަން: ސްކޫލް ހޯލް | ހުރިހާ ދަރިވަރުން ބައިވެރިވުން އެދެމެވެ."
+      },
+      {
+        id: "slide-2",
+        template: "table",
+        title: "މިޑް-ޓަރމް އިމްތިޙާން ތާވަލު - 2026",
+        category: "އިމްތިޙާން ތާވަލު",
+        duration: 14,
+        pinned: false,
+        active: true,
+        headers: "ގްރޭޑް, މާއްދާ, ތާރީޚް, ގަޑި, ހޯލް",
+        rows: [
+          ["ގްރޭޑް 10", "އިސްލާމް", "20 އޮކްޓޫބަރު", "08:00 AM", "ހޯލް A"],
+          ["ގްރޭޑް 10", "ދިވެހި", "21 އޮކްޓޫބަރު", "08:00 AM", "ހޯލް A"],
+          ["ގްރޭޑް 9", "Mathematics", "22 އޮކްޓޫބަރު", "08:00 AM", "ހޯލް B"],
+          ["ގްރޭޑް 8", "English", "23 އޮކްޓޫބަރު", "10:00 AM", "ހޯލް C"]
+        ]
+      },
+      {
+        id: "slide-3",
+        template: "dhua",
+        title: "ދުވަހުގެ ދުޢާ - ޢިލްމު އިތުރުކުރެއްވުން",
+        category: "ދުވަހުގެ ދުޢާ",
+        duration: 10,
+        pinned: false,
+        active: true,
+        arabic: "رَّبِّ زِدْنِي عِلْمًا",
+        dhivehi: "އޭ my ވެރިރަސްކަލާކޯ! އަޅާއަށް ޢިލްމު އިތުރުކޮށްދެއްވާނދޭވެ.",
+        note: "ކޮންމެ ދުވަހަކު ކިޔެވުން ފެށުމުގެ ކުރިން މި ދުޢާ ކިޔުން އާދަކުރަމާ!"
+      },
+      {
+        id: "slide-4",
+        template: "congrats",
+        title: "ނެޝަނަލް ސައިންސް ފެއަރ 1 ވަނަ",
+        category: "މަރުޙަބާ އާއި ސާބަސް",
+        duration: 12,
+        pinned: false,
+        active: true,
+        winner: "ޢާއިޝަތު ނަވާލް މުޙައްމަދު",
+        subtext: "ގްރޭޑް 10-އޭ",
+        achievement: "ޤައުމީ ސައިންސް މުބާރާތުން 1 ވަނަ ހޯދާފައިވާތީ މުޅި ސްކޫލުގެ ނަމުގައި އުފަލާއެކު މަރުޙަބާ ކިޔަމެވެ!",
+        photo_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "slide-5",
+        template: "alert",
+        title: "ސަމާލުކަމަށް: ބެލެނިވެރިންގެ ބައްދަލުވުން",
+        category: "ކުއްލި އެންގުން",
+        duration: 10,
+        pinned: false,
+        active: true,
+        alert_text: "މާދަމާ ހަވީރު 4:00 ގައި ސްކޫލް ހޯލްގައި ބޭއްވޭ ބެލެނިވެރިންގެ ޚާއްޞަ ބައްދަލުވުމަށް ހުރިހާ ބެލެނިވެރިން ހާޟިރުވެވަޑައިގެން ދެއްވުން އެދެމެވެ."
+      },
+      {
+        id: "slide-6",
+        template: "infographic",
+        title: "މި މަހުގެ ސްކޫލް ޚުލާޞާ ތަފާސްހިސާބު",
+        category: "އިންފޯގްރާފިކްސް",
+        duration: 10,
+        pinned: false,
+        active: true,
+        stats: [
+          { number: "98.5%", label: "ދަރިވަރުންގެ ހާޟިރީ", icon: "fa-user-check" },
+          { number: "1,420", label: "ފޮތްތަކުގެ ދޫކުރުން", icon: "fa-book" },
+          { number: "94%", label: "އިމްތިޙާން ފާސްވި ނިސްބަތް", icon: "fa-chart-line" },
+          { number: "12", label: "ހިންގުނު އިތުރު ޙަރަކާތްތައް", icon: "fa-trophy" }
+        ]
+      },
+      {
+        id: "slide-7",
+        template: "timeline",
+        title: "ސްކޫލް އަހަރީ ކުޅިވަރު ޢީދު - 2026",
+        category: "ޙަރަކާތްތަކުގެ ތާވަލު",
+        duration: 12,
+        pinned: false,
+        active: true,
+        events: [
+          { time: "07:30 AM", title: "އިސްދޮރު ހުޅުވުން", detail: "ޓީމުތައް ހާޟިރުވުން" },
+          { time: "08:00 AM", title: "ރަސްމީ އެސެމްބްލީ", detail: "ދިދަނެގުމާއި ޝަރަފުގެ ސަލާމް" },
+          { time: "09:00 AM", title: "ދާރީ މުބާރާތްތައް", detail: "އެތުލެޓިކްސް ރޭސްތައް" },
+          { time: "02:00 PM", title: "ވަނަވަނައަށް ދިޔަ ފަރާތްތަކަށް އިނާމު ދިނުން", detail: "ވަދާޢީ ރަސްމިއްޔާތު" }
+        ]
+      }
+    ];
+
+    const DEFAULT_TICKERS = [
+      "ސްކޫލް އަހަރީ ކުޅިވަރު މުބާރާތުގެ ރަޖިސްޓްރޭޝަން މިހާރު ވަނީ ހުޅުވާލެވިފައެވެ.",
+      "މާދަމާއަކީ ސްކޫލް ބަންދު ދުވަހެކެވެ.",
+      "ގްރޭޑް 10 ގެ އިމްތިޙާން ތާވަލު މިހާރު ނޯޓިސް ބޯޑުގައި ވަނީ ޝާއިއުކުރެވިފައެވެ."
+    ];
+
+    /* APP STATE VARIABLES */
+    let slides = [];
+    let tickerItems = [];
+    let currentSlideIndex = 0;
+    let timerInterval = null;
+    let secondsRemaining = 0;
+    let isCarouselPaused = false;
+    let adminPin = "1234";
+    let firebaseDb = null;
+    let activeTemplate = "image";
+
+    window.onload = function() {
+      loadStoredData();
+      startClock();
+      fetchMaleWeather();
+      renderCurrentSlide();
+      renderTickerMarquee();
+      startCarouselTimer();
+      setupKeyboardShortcuts();
+    };
+
+    /* LOCAL STORAGE & INITIAL LOAD */
+    function loadStoredData() {
+      const savedSlides = localStorage.getItem("app_notice_slides");
+      slides = savedSlides ? JSON.parse(savedSlides) : DEFAULT_SLIDES;
+
+      const savedTickers = localStorage.getItem("app_ticker_items");
+      tickerItems = savedTickers ? JSON.parse(savedTickers) : DEFAULT_TICKERS;
+
+      const savedFbConfig = localStorage.getItem("app_firebase_config");
+      if (savedFbConfig) {
+        try {
+          const config = JSON.parse(savedFbConfig);
+          initFirebaseCloud(config);
+        } catch (e) {
+          console.error("Firebase config parse error", e);
+        }
+      }
+    }
+
+    function saveDataLocally() {
+      localStorage.setItem("app_notice_slides", JSON.stringify(slides));
+      localStorage.setItem("app_ticker_items", JSON.stringify(tickerItems));
+      
+      if (firebaseDb) {
+        pushDataToFirebase();
+      }
+    }
+
+    /* MALDIVIAN LIVE CLOCK & DATE */
+    function startClock() {
+      function update() {
+        const now = new Date();
+        const hrs = String(now.getHours()).padStart(2, '0');
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const secs = String(now.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('live-time').innerText = `${hrs}:${mins}:${secs}`;
+
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dateStr = now.toLocaleDateString('dv-MV', options);
+        document.getElementById('live-date').innerText = dateStr;
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    /* LIVE WEATHER INTEGRATION FOR MALÉ, MALDIVES */
+    async function fetchMaleWeather() {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=4.1755&longitude=73.5093&current_weather=true');
+        const data = await res.json();
+        if (data && data.current_weather) {
+          const temp = Math.round(data.current_weather.temperature);
+          document.getElementById('weather-temp').innerText = `${temp}°C`;
+          document.getElementById('weather-desc').innerText = getWeatherDescription(data.current_weather.weathercode);
+        }
+      } catch (err) {
+        console.log("Weather fetch fallback");
+      }
+    }
+
+    function getWeatherDescription(code) {
+      if (code === 0) return "Clear Sky";
+      if (code <= 3) return "Partly Cloudy";
+      if (code <= 65) return "Rain Showers";
+      return "Tropical Breeze";
+    }
+
+    /* CAROUSEL TIMER ENGINE */
+    function startCarouselTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+
+      const activeSlides = getActiveSlides();
+      if (activeSlides.length === 0) return;
+
+      if (currentSlideIndex >= activeSlides.length) {
+        currentSlideIndex = 0;
+      }
+
+      const slide = activeSlides[currentSlideIndex];
+      const totalSecs = slide.duration || 10;
+      secondsRemaining = totalSecs;
+
+      updateProgressCircle(100);
+
+      timerInterval = setInterval(() => {
+        if (!isCarouselPaused) {
+          secondsRemaining -= 0.1;
+          const percentage = (secondsRemaining / totalSecs) * 100;
+          updateProgressCircle(percentage);
+
+          if (secondsRemaining <= 0) {
+            nextSlide();
+          }
+        }
+      }, 100);
+    }
+
+    function updateProgressCircle(percentage) {
+      const circle = document.getElementById('progress-circle');
+      if (circle) {
+        const circumference = 100;
+        const offset = circumference - (percentage / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+      }
+    }
+
+    function getActiveSlides() {
+      const active = slides.filter(s => s.active);
+      // Put pinned slides first
+      return active.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+    }
+
+    function nextSlide() {
+      const active = getActiveSlides();
+      if (active.length === 0) return;
+      currentSlideIndex = (currentSlideIndex + 1) % active.length;
+      renderCurrentSlide();
+      startCarouselTimer();
+    }
+
+    function prevSlide() {
+      const active = getActiveSlides();
+      if (active.length === 0) return;
+      currentSlideIndex = (currentSlideIndex - 1 + active.length) % active.length;
+      renderCurrentSlide();
+      startCarouselTimer();
+    }
+
+    function toggleCarouselPause() {
+      isCarouselPaused = !isCarouselPaused;
+      const btn = document.getElementById('pause-btn');
+      if (btn) {
+        btn.innerHTML = isCarouselPaused ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
+      }
+      showToast(isCarouselPaused ? "Carousel Paused" : "Carousel Resumed");
+    }
+
+    /* SLIDE TEMPLATE RENDER ENGINE */
+    function renderCurrentSlide() {
+      const active = getActiveSlides();
+      const stage = document.getElementById('slide-content-stage');
+      
+      if (!stage || active.length === 0) {
+        if (stage) {
+          stage.innerHTML = `<div class="text-slate-400 font-faruma text-center">ނޯޓިސްއެއް ނެތެވެ. (No Active Slides)</div>`;
+        }
+        return;
+      }
+
+      const slide = active[currentSlideIndex];
+
+      // Update Header Badges
+      document.getElementById('slide-category-text').innerText = slide.category || "ނޯޓިސް";
+      document.getElementById('slide-counter-badge').innerText = `Slide ${currentSlideIndex + 1} of ${active.length}`;
+      
+      const pinIndicator = document.getElementById('slide-pinned-indicator');
+      if (pinIndicator) {
+        if (slide.pinned) pinIndicator.classList.remove('hidden');
+        else pinIndicator.classList.add('hidden');
+      }
+
+      // Render Dynamic Template Content
+      stage.innerHTML = generateTemplateHTML(slide);
+
+      // Trigger Celebration Confetti Effect if Congratulations Slide
+      if (slide.template === "congrats") {
+        triggerConfettiEffect();
+      }
+    }
+
+    function generateTemplateHTML(slide) {
+      switch (slide.template) {
+        case "image":
+          return `
+            <div class="w-full h-full flex flex-col justify-center items-center gap-4 animate-fade-in">
+              <h2 class="text-3xl lg:text-4xl font-waheed font-bold text-sky-200 text-center drop-shadow-md">
+                ${slide.title}
+              </h2>
+              <div class="relative w-full max-w-4xl h-72 lg:h-96 rounded-2xl overflow-hidden border-2 border-sky-400/40 shadow-2xl glow-cyan">
+                <img src="${slide.image_url}" alt="Notice Flyer" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1200x800/0f172a/38bdf8?text=Image+Not+Found'" />
+                ${slide.caption ? `<div class="absolute bottom-0 inset-x-0 bg-slate-950/80 backdrop-blur-md p-3 text-center text-sm font-faruma text-sky-200 border-t border-sky-500/30">${slide.caption}</div>` : ''}
+              </div>
+            </div>
+          `;
+
+        case "table":
+          const headers = (slide.headers || "").split(",").map(h => h.trim());
+          const rows = slide.rows || [];
+          return `
+            <div class="w-full max-w-5xl flex flex-col items-center gap-6 animate-fade-in">
+              <h2 class="text-3xl lg:text-4xl font-waheed font-bold text-sky-200 text-center drop-shadow-md">
+                ${slide.title}
+              </h2>
+              <div class="w-full overflow-hidden rounded-2xl border border-sky-400/40 glass-card shadow-2xl">
+                <table class="w-full text-right font-faruma">
+                  <thead>
+                    <tr class="bg-gradient-to-r from-sky-900/80 to-indigo-900/80 border-b border-sky-400/30 text-sky-200 text-lg">
+                      ${headers.map(h => `<th class="p-4 border-l border-sky-500/20 font-waheed">${h}</th>`).join('')}
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-sky-500/20 text-slate-200 text-base">
+                    ${rows.map((r, idx) => `
+                      <tr class="${idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-900/80'} hover:bg-sky-500/10 transition-colors">
+                        ${r.map(cell => `<td class="p-3.5 border-l border-sky-500/10">${cell}</td>`).join('')}
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+
+        case "dhua":
+          return `
+            <div class="w-full max-w-3xl islamic-frame p-8 lg:p-12 rounded-3xl text-center space-y-6 relative animate-fade-in">
+              <div class="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center text-2xl mx-auto shadow-lg">
+                <i class="fa-solid fa-kaaba"></i>
+              </div>
+              <h2 class="text-2xl font-waheed font-bold text-amber-300 tracking-wide">${slide.title}</h2>
+              <div class="text-4xl lg:text-5xl font-sans font-extrabold text-amber-200 py-4 dir-rtl leading-relaxed font-arabic" style="font-family: 'Noto Sans Arabic', sans-serif;">
+                ${slide.arabic}
+              </div>
+              <div class="text-xl lg:text-2xl font-faruma text-sky-100 bg-slate-900/60 p-4 rounded-2xl border border-sky-500/20">
+                "${slide.dhivehi}"
+              </div>
+              ${slide.note ? `<p class="text-xs text-amber-300/80 font-faruma">${slide.note}</p>` : ''}
+            </div>
+          `;
+
+        case "congrats":
+          return `
+            <div class="w-full max-w-4xl flex flex-col md:flex-row items-center gap-8 glass-card p-8 rounded-3xl border border-amber-400/40 glow-amber relative animate-fade-in">
+              <div class="relative shrink-0">
+                <div class="w-48 h-48 lg:w-56 lg:h-56 rounded-2xl overflow-hidden border-4 border-amber-400/60 shadow-2xl">
+                  <img src="${slide.photo_url}" alt="Winner Portrait" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/0f172a/f59e0b?text=Student+Photo'" />
+                </div>
+                <div class="absolute -bottom-4 -right-4 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 text-slate-950 flex items-center justify-center text-2xl font-black shadow-xl border-2 border-white">
+                  <i class="fa-solid fa-trophy"></i>
+                </div>
+              </div>
+              <div class="flex-1 text-right space-y-3">
+                <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold border border-amber-400/30">
+                  ${slide.title}
+                </span>
+                <h2 class="text-3xl lg:text-4xl font-waheed font-bold text-amber-200 leading-tight">
+                  ${slide.winner}
+                </h2>
+                <p class="text-lg text-sky-300 font-waheed">${slide.subtext}</p>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-sky-500/20 text-base font-faruma text-slate-200 leading-relaxed">
+                  ${slide.achievement}
+                </div>
+              </div>
+            </div>
+          `;
+
+        case "alert":
+          return `
+            <div class="w-full max-w-3xl glass-card p-10 rounded-3xl border-2 border-rose-500/60 glow-red text-center space-y-6 animate-fade-in">
+              <div class="w-20 h-20 rounded-full bg-rose-500/20 border border-rose-500/50 text-rose-400 flex items-center justify-center text-4xl mx-auto animate-bounce">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+              <h2 class="text-3xl lg:text-4xl font-waheed font-bold text-rose-300 drop-shadow-md">
+                ${slide.title}
+              </h2>
+              <div class="text-xl lg:text-2xl font-faruma text-slate-100 bg-rose-950/40 p-6 rounded-2xl border border-rose-500/30 leading-relaxed">
+                ${slide.alert_text}
+              </div>
+            </div>
+          `;
+
+        case "infographic":
+          const stats = slide.stats || [];
+          return `
+            <div class="w-full max-w-5xl flex flex-col items-center gap-8 animate-fade-in">
+              <h2 class="text-3xl lg:text-4xl font-waheed font-bold text-sky-200 text-center drop-shadow-md">
+                ${slide.title}
+              </h2>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
+                ${stats.map(st => `
+                  <div class="glass-card p-6 rounded-2xl border border-sky-400/30 text-center space-y-2 hover:border-sky-400 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl mx-auto mb-2">
+                      <i class="fa-solid ${st.icon || 'fa-chart-bar'}"></i>
+                    </div>
+                    <div class="text-3xl lg:text-4xl font-english font-black text-sky-200">${st.number}</div>
+                    <div class="text-sm font-faruma text-slate-300">${st.label}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+
+        case "timeline":
+          const events = slide.events || [];
+          return `
+            <div class="w-full max-w-4xl flex flex-col items-center gap-6 animate-fade-in">
+              <h2 class="text-3xl lg:text-4xl font-waheed font-bold text-sky-200 text-center drop-shadow-md">
+                ${slide.title}
+              </h2>
+              <div class="w-full space-y-4">
+                ${events.map(ev => `
+                  <div class="glass-card p-4 rounded-2xl border border-sky-500/30 flex items-center gap-6">
+                    <div class="px-4 py-2 rounded-xl bg-sky-500/20 border border-sky-400/40 text-sky-300 font-english font-bold text-sm shrink-0">
+                      ${ev.time}
+                    </div>
+                    <div class="flex-1 text-right">
+                      <h4 class="text-xl font-waheed font-bold text-sky-200">${ev.title}</h4>
+                      <p class="text-xs font-faruma text-slate-400">${ev.detail}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+
+        default:
+          return `<div class="text-slate-300 font-faruma">${slide.title}</div>`;
+      }
+    }
+
+    function triggerConfettiEffect() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    /* TICKER MARQUEE RENDERER */
+    function renderTickerMarquee() {
+      const container = document.getElementById('ticker-marquee-container');
+      if (!container) return;
+
+      if (tickerItems.length === 0) {
+        container.innerHTML = `<span>މަރުޙަބާ! މާލޭ ސެކަންޑަރީ ސްކޫލް ޑިޖިޓަލް ނޯޓިސް ބޯޑަށް މަރުޙަބާ!</span>`;
+        return;
+      }
+
+      const joinedText = tickerItems.map(item => `<span>${item}</span>`).join(`<span class="mx-6 text-amber-400">✦</span>`);
+      container.innerHTML = joinedText + `<span class="mx-6 text-amber-400">✦</span>` + joinedText;
+    }
+
+    /* ADMIN AUTHENTICATION MODAL */
+    function openAdminModal() {
+      document.getElementById('pin-modal').classList.remove('hidden');
+      document.getElementById('pin-input').focus();
+    }
+
+    function closePinModal() {
+      document.getElementById('pin-modal').classList.add('hidden');
+      document.getElementById('pin-error').classList.add('hidden');
+      document.getElementById('pin-input').value = "";
+    }
+
+    function handlePinSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('pin-input').value;
+      if (input === adminPin) {
+        closePinModal();
+        openAdminPortal();
+      } else {
+        document.getElementById('pin-error').classList.remove('hidden');
+      }
+    }
+
+    function openAdminPortal() {
+      document.getElementById('admin-portal').classList.remove('hidden');
+      renderSlidesManagerList();
+      renderTickerItemsList();
+    }
+
+    function closeAdminPortal() {
+      document.getElementById('admin-portal').classList.add('hidden');
+    }
+
+    function switchAdminTab(tabIndex) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-sky-400', 'text-sky-300');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+
+      document.getElementById(`admin-tab-${tabIndex}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-btn-${tabIndex}`);
+      activeBtn.classList.remove('border-transparent', 'text-slate-400');
+      activeBtn.classList.add('border-sky-400', 'text-sky-300');
+    }
+
+    /* SLIDES MANAGER (TAB 1) LOGIC */
+    function renderSlidesManagerList() {
+      const container = document.getElementById('slides-manager-list');
+      if (!container) return;
+
+      container.innerHTML = slides.map((slide, idx) => `
+        <div class="glass-card p-4 rounded-2xl border border-sky-500/30 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <span class="text-xs font-bold text-slate-500 w-6">#${idx + 1}</span>
+            <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg">
+              <i class="fa-solid ${getTemplateIcon(slide.template)}"></i>
+            </div>
+            <div>
+              <h4 class="font-waheed text-base font-bold text-sky-200">${slide.title}</h4>
+              <div class="flex items-center gap-3 text-xs text-slate-400">
+                <span>Category: ${slide.category}</span>
+                <span>•</span>
+                <span>Timer: ${slide.duration}s</span>
+                ${slide.pinned ? '<span class="text-amber-400 font-bold">• Pinned</span>' : ''}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Active Toggle -->
+            <button onclick="toggleSlideActive('${slide.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold border ${slide.active ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-800 text-slate-500 border-slate-700'}">
+              ${slide.active ? 'Active' : 'Hidden'}
+            </button>
+
+            <!-- Pin Toggle -->
+            <button onclick="toggleSlidePin('${slide.id}')" class="p-2 rounded-lg text-xs border ${slide.pinned ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}">
+              <i class="fa-solid fa-thumbtack"></i>
+            </button>
+
+            <!-- Edit Slide -->
+            <button onclick="editSlide('${slide.id}')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 text-xs">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+
+            <!-- Move Up/Down -->
+            <button onclick="moveSlide('${slide.id}', -1)" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs">
+              <i class="fa-solid fa-arrow-up"></i>
+            </button>
+            <button onclick="moveSlide('${slide.id}', 1)" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs">
+              <i class="fa-solid fa-arrow-down"></i>
+            </button>
+
+            <!-- Delete -->
+            <button onclick="deleteSlide('${slide.id}')" class="p-2 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getTemplateIcon(tpl) {
+      switch (tpl) {
+        case 'image': return 'fa-image';
+        case 'table': return 'fa-table';
+        case 'dhua': return 'fa-hands-praying';
+        case 'congrats': return 'fa-trophy';
+        case 'alert': return 'fa-triangle-exclamation';
+        case 'infographic': return 'fa-chart-pie';
+        case 'timeline': return 'fa-timeline';
+        default: return 'fa-bullhorn';
+      }
+    }
+
+    function toggleSlideActive(id) {
+      const slide = slides.find(s => s.id === id);
+      if (slide) {
+        slide.active = !slide.active;
+        saveDataLocally();
+        renderSlidesManagerList();
+        renderCurrentSlide();
+        showToast(`Slide status updated`);
+      }
+    }
+
+    function toggleSlidePin(id) {
+      const slide = slides.find(s => s.id === id);
+      if (slide) {
+        slide.pinned = !slide.pinned;
+        saveDataLocally();
+        renderSlidesManagerList();
+        renderCurrentSlide();
+        showToast(slide.pinned ? "Slide Pinned to Top" : "Slide Unpinned");
+      }
+    }
+
+    function moveSlide(id, direction) {
+      const index = slides.findIndex(s => s.id === id);
+      if (index < 0) return;
+      const targetIndex = index + direction;
+      if (targetIndex >= 0 && targetIndex < slides.length) {
+        const temp = slides[index];
+        slides[index] = slides[targetIndex];
+        slides[targetIndex] = temp;
+        saveDataLocally();
+        renderSlidesManagerList();
+        renderCurrentSlide();
+      }
+    }
+
+    function deleteSlide(id) {
+      if (slides.length <= 1) {
+        showToast("Cannot delete the only slide", "error");
+        return;
+      }
+      slides = slides.filter(s => s.id !== id);
+      saveDataLocally();
+      renderSlidesManagerList();
+      renderCurrentSlide();
+      showToast("Slide Deleted");
+    }
+
+    /* SLIDE EDITOR (TAB 2) FORM & DYNAMIC BUILDER */
+    function selectTemplate(tpl) {
+      activeTemplate = tpl;
+      document.getElementById('edit-template-type').value = tpl;
+
+      document.querySelectorAll('.template-selector').forEach(btn => {
+        btn.classList.remove('border-sky-500/40', 'bg-sky-500/10', 'text-sky-300');
+        btn.classList.add('border-slate-700', 'bg-slate-800/60', 'text-slate-400');
+      });
+
+      const selectedBtn = document.getElementById(`tpl-btn-${tpl}`);
+      if (selectedBtn) {
+        selectedBtn.classList.remove('border-slate-700', 'bg-slate-800/60', 'text-slate-400');
+        selectedBtn.classList.add('border-sky-500/40', 'bg-sky-500/10', 'text-sky-300');
+      }
+
+      renderDynamicFormFields();
+      previewCurrentForm();
+    }
+
+    function renderDynamicFormFields() {
+      const container = document.getElementById('dynamic-template-fields');
+      if (!container) return;
+
+      switch (activeTemplate) {
+        case 'image':
+          container.innerHTML = `
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Image URL</label>
+              <input type="text" id="field-image-url" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 text-xs" placeholder="https://..." value="https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=1200&q=80" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Caption / Details (Dhivehi)</label>
+              <input type="text" id="field-image-caption" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" placeholder="ތަފްޞީލު..." />
+            </div>
+          `;
+          break;
+
+        case 'table':
+          container.innerHTML = `
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Table Headers (Comma Separated)</label>
+              <input type="text" id="field-table-headers" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" value="ގްރޭޑް, މާއްދާ, ތާރީޚް, ގަޑި, ހޯލް" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Table Rows (Comma separated per line)</label>
+              <textarea id="field-table-rows" rows="4" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" placeholder="ގްރޭޑް 10, އިސްލާމް, 20 އޮކްޓޫބަރު, 08:00 AM, ހޯލް A"></textarea>
+            </div>
+          `;
+          break;
+
+        case 'dhua':
+          container.innerHTML = `
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Arabic Dhua Text</label>
+              <input type="text" id="field-dhua-arabic" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-amber-200 text-sm font-bold" value="رَّبِّ زِدْنِي عِلْمًا" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Dhivehi Translation (ތަރުޖަމާ)</label>
+              <input type="text" id="field-dhua-dhivehi" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" value="އޭ my ވެރިރަސްކަލާކޯ! އަޅާއަށް ޢިލްމު އިތުރުކޮށްދެއްވާނދޭވެ." />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Daily Guidance Note</label>
+              <input type="text" id="field-dhua-note" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 font-faruma text-xs" value="ކޮންމެ ދުވަހަކު ކިޔެވުން ފެށުމުގެ ކުރިން މި ދުޢާ ކިޔުން އާދަކުރަމާ!" />
+            </div>
+          `;
+          break;
+
+        case 'congrats':
+          container.innerHTML = `
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Winner Full Name (Dhivehi)</label>
+              <input type="text" id="field-congrats-winner" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-amber-200 font-waheed text-xs" placeholder="ނަން..." />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Grade / Subtitle</label>
+              <input type="text" id="field-congrats-subtext" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" placeholder="ގްރޭޑް 10-އޭ" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Achievement Description</label>
+              <textarea id="field-congrats-achievement" rows="2" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" placeholder="މަރުޙަބާގެ މެސެޖު..."></textarea>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Photo URL</label>
+              <input type="text" id="field-congrats-photo" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 text-xs" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" />
+            </div>
+          `;
+          break;
+
+        case 'alert':
+          container.innerHTML = `
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Urgent Alert Message (Dhivehi)</label>
+              <textarea id="field-alert-text" rows="3" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-rose-500/30 text-rose-200 font-faruma text-xs" placeholder="އެންގުމުގެ ތަފްޞީލު..."></textarea>
+            </div>
+          `;
+          break;
+
+        case 'infographic':
+          container.innerHTML = `
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold text-slate-300">Metric Cards (4 Stats)</label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <input type="text" id="field-stat-num-1" placeholder="98.5%" class="px-2 py-1.5 bg-slate-900 border rounded" />
+                <input type="text" id="field-stat-lbl-1" dir="rtl" placeholder="ދަރިވަރުންގެ ހާޟިރީ" class="px-2 py-1.5 bg-slate-900 border rounded font-faruma" />
+                <input type="text" id="field-stat-num-2" placeholder="1,420" class="px-2 py-1.5 bg-slate-900 border rounded" />
+                <input type="text" id="field-stat-lbl-2" dir="rtl" placeholder="ފޮތްތަކުގެ ދޫކުރުން" class="px-2 py-1.5 bg-slate-900 border rounded font-faruma" />
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'timeline':
+          container.innerHTML = `
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Schedule Events (Time | Title | Detail per line)</label>
+              <textarea id="field-timeline-lines" rows="4" dir="rtl" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sky-200 font-faruma text-xs" placeholder="08:00 AM | ރަސްމީ އެސެމްބްލީ | ދިދަނެގުން"></textarea>
+            </div>
+          `;
+          break;
+      }
+    }
+
+    function prepareNewSlide() {
+      document.getElementById('edit-slide-id').value = "";
+      document.getElementById('field-title').value = "";
+      document.getElementById('field-category').value = "ޚާއްޞަ އިޢުލާން";
+      document.getElementById('field-duration').value = "10";
+      document.getElementById('field-pinned').checked = false;
+      selectTemplate('image');
+      switchAdminTab(2);
+    }
+
+    function editSlide(id) {
+      const slide = slides.find(s => s.id === id);
+      if (!slide) return;
+
+      document.getElementById('edit-slide-id').value = slide.id;
+      document.getElementById('field-title').value = slide.title || "";
+      document.getElementById('field-category').value = slide.category || "";
+      document.getElementById('field-duration').value = slide.duration || 10;
+      document.getElementById('field-pinned').checked = !!slide.pinned;
+
+      selectTemplate(slide.template);
+
+      // Populate Template Specific Inputs after delay
+      setTimeout(() => {
+        if (slide.template === 'image') {
+          if (document.getElementById('field-image-url')) document.getElementById('field-image-url').value = slide.image_url || "";
+          if (document.getElementById('field-image-caption')) document.getElementById('field-image-caption').value = slide.caption || "";
+        } else if (slide.template === 'table') {
+          if (document.getElementById('field-table-headers')) document.getElementById('field-table-headers').value = slide.headers || "";
+          if (document.getElementById('field-table-rows')) document.getElementById('field-table-rows').value = (slide.rows || []).map(r => r.join(', ')).join('\n');
+        } else if (slide.template === 'dhua') {
+          if (document.getElementById('field-dhua-arabic')) document.getElementById('field-dhua-arabic').value = slide.arabic || "";
+          if (document.getElementById('field-dhua-dhivehi')) document.getElementById('field-dhua-dhivehi').value = slide.dhivehi || "";
+          if (document.getElementById('field-dhua-note')) document.getElementById('field-dhua-note').value = slide.note || "";
+        } else if (slide.template === 'congrats') {
+          if (document.getElementById('field-congrats-winner')) document.getElementById('field-congrats-winner').value = slide.winner || "";
+          if (document.getElementById('field-congrats-subtext')) document.getElementById('field-congrats-subtext').value = slide.subtext || "";
+          if (document.getElementById('field-congrats-achievement')) document.getElementById('field-congrats-achievement').value = slide.achievement || "";
+          if (document.getElementById('field-congrats-photo')) document.getElementById('field-congrats-photo').value = slide.photo_url || "";
+        } else if (slide.template === 'alert') {
+          if (document.getElementById('field-alert-text')) document.getElementById('field-alert-text').value = slide.alert_text || "";
+        }
+        previewCurrentForm();
+      }, 50);
+
+      switchAdminTab(2);
+    }
+
+    function previewCurrentForm() {
+      const slideData = buildSlideObjectFromForm();
+      const previewBox = document.getElementById('live-preview-box');
+      if (previewBox) {
+        previewBox.innerHTML = generateTemplateHTML(slideData);
+      }
+    }
+
+    function buildSlideObjectFromForm() {
+      const id = document.getElementById('edit-slide-id').value || 'slide-' + Date.now();
+      const title = document.getElementById('field-title').value || "ސުރުޚީ";
+      const category = document.getElementById('field-category').value || "ނޯޓިސް";
+      const duration = parseInt(document.getElementById('field-duration').value) || 10;
+      const pinned = document.getElementById('field-pinned').checked;
+
+      let obj = { id, template: activeTemplate, title, category, duration, pinned, active: true };
+
+      if (activeTemplate === 'image') {
+        obj.image_url = document.getElementById('field-image-url')?.value || "";
+        obj.caption = document.getElementById('field-image-caption')?.value || "";
+      } else if (activeTemplate === 'table') {
+        obj.headers = document.getElementById('field-table-headers')?.value || "Header 1, Header 2";
+        const lines = (document.getElementById('field-table-rows')?.value || "").split('\n');
+        obj.rows = lines.map(l => l.split(',').map(c => c.trim())).filter(r => r.length > 0 && r[0] !== "");
+      } else if (activeTemplate === 'dhua') {
+        obj.arabic = document.getElementById('field-dhua-arabic')?.value || "";
+        obj.dhivehi = document.getElementById('field-dhua-dhivehi')?.value || "";
+        obj.note = document.getElementById('field-dhua-note')?.value || "";
+      } else if (activeTemplate === 'congrats') {
+        obj.winner = document.getElementById('field-congrats-winner')?.value || "";
+        obj.subtext = document.getElementById('field-congrats-subtext')?.value || "";
+        obj.achievement = document.getElementById('field-congrats-achievement')?.value || "";
+        obj.photo_url = document.getElementById('field-congrats-photo')?.value || "";
+      } else if (activeTemplate === 'alert') {
+        obj.alert_text = document.getElementById('field-alert-text')?.value || "";
+      } else if (activeTemplate === 'infographic') {
+        obj.stats = [
+          { number: document.getElementById('field-stat-num-1')?.value || "98%", label: document.getElementById('field-stat-lbl-1')?.value || "Stat 1", icon: "fa-chart-line" },
+          { number: document.getElementById('field-stat-num-2')?.value || "100", label: document.getElementById('field-stat-lbl-2')?.value || "Stat 2", icon: "fa-book" }
+        ];
+      } else if (activeTemplate === 'timeline') {
+        const lines = (document.getElementById('field-timeline-lines')?.value || "").split('\n');
+        obj.events = lines.map(l => {
+          const parts = l.split('|');
+          return { time: parts[0]?.trim() || "08:00 AM", title: parts[1]?.trim() || "Event", detail: parts[2]?.trim() || "" };
+        });
+      }
+
+      return obj;
+    }
+
+    function saveSlideForm(e) {
+      e.preventDefault();
+      const newSlide = buildSlideObjectFromForm();
+      const index = slides.findIndex(s => s.id === newSlide.id);
+
+      if (index >= 0) {
+        slides[index] = newSlide;
+      } else {
+        slides.push(newSlide);
+      }
+
+      saveDataLocally();
+      renderSlidesManagerList();
+      renderCurrentSlide();
+      showToast("Slide Saved Successfully!");
+      switchAdminTab(1);
+    }
+
+    /* MARQUEE TICKER MANAGER (TAB 3) */
+    function renderTickerItemsList() {
+      const container = document.getElementById('ticker-items-list');
+      if (!container) return;
+
+      container.innerHTML = tickerItems.map((item, idx) => `
+        <div class="flex items-center justify-between bg-slate-900/60 p-3 rounded-xl border border-sky-500/20 text-xs font-faruma text-sky-200">
+          <span class="flex-1">${item}</span>
+          <button onclick="removeTickerItem(${idx})" class="text-rose-400 hover:text-rose-300 ml-3">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function addTickerItem(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-ticker-input');
+      if (input && input.value.trim() !== "") {
+        tickerItems.push(input.value.trim());
+        input.value = "";
+        saveDataLocally();
+        renderTickerItemsList();
+        renderTickerMarquee();
+        showToast("Headline Added");
+      }
+    }
+
+    function removeTickerItem(index) {
+      tickerItems.splice(index, 1);
+      saveDataLocally();
+      renderTickerItemsList();
+      renderTickerMarquee();
+      showToast("Headline Removed");
+    }
+
+    /* FIREBASE CLOUD REAL-TIME SYNC (TAB 4) */
+    function saveFirebaseConfig(e) {
+      e.preventDefault();
+      const apiKey = document.getElementById('fb-api-key').value.trim();
+      const projectId = document.getElementById('fb-project-id').value.trim();
+      const appId = document.getElementById('fb-app-id').value.trim();
+
+      if (!apiKey || !projectId) {
+        showToast("Please enter valid Firebase keys", "error");
+        return;
+      }
+
+      const config = { apiKey, projectId, appId };
+      localStorage.setItem("app_firebase_config", JSON.stringify(config));
+      initFirebaseCloud(config);
+    }
+
+    function initFirebaseCloud(config) {
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(config);
+        }
+        firebaseDb = firebase.firestore();
+
+        document.getElementById('cloud-status-badge').innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Cloud Connected
+        `;
+        document.getElementById('firebase-status-pill').className = "text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
+        document.getElementById('firebase-status-pill').innerText = "Connected";
+
+        listenToFirebaseUpdates();
+        showToast("Connected to Firebase Cloud!");
+      } catch (err) {
+        console.error("Firebase init error", err);
+        showToast("Firebase Connection Failed", "error");
+      }
+    }
+
+    function pushDataToFirebase() {
+      if (!firebaseDb) return;
+      firebaseDb.collection('digital_noticeboard').doc('current_state').set({
+        slides: slides,
+        tickerItems: tickerItems,
+        updatedAt: new Date().toISOString()
+      }).catch(err => console.error("Cloud push failed", err));
+    }
+
+    function listenToFirebaseUpdates() {
+      if (!firebaseDb) return;
+      firebaseDb.collection('digital_noticeboard').doc('current_state').onSnapshot(doc => {
+        if (doc.exists) {
+          const data = doc.data();
+          if (data.slides) slides = data.slides;
+          if (data.tickerItems) tickerItems = data.tickerItems;
+          renderCurrentSlide();
+          renderTickerMarquee();
+          renderSlidesManagerList();
+          renderTickerItemsList();
+        }
+      });
+    }
+
+    /* HELPER UTILITIES & SHORTCUTS */
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function setupKeyboardShortcuts() {
+      window.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+          e.preventDefault();
+          openAdminModal();
+        } else if (e.key === 'ArrowRight') {
+          prevSlide();
+        } else if (e.key === 'ArrowLeft') {
+          nextSlide();
+        } else if (e.key === ' ') {
+          toggleCarouselPause();
+        }
+      });
+    }
+
+    function showToast(msg, type = "success") {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl border flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0 ${
+        type === 'error' ? 'bg-rose-900/90 text-rose-200 border-rose-500/40' : 'bg-slate-900/90 text-sky-200 border-sky-400/40'
+      }`;
+      toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-xmark text-rose-400' : 'fa-circle-check text-sky-400'}"></i> ${msg}`;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
