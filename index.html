@@ -16,6 +16,7 @@
   
   <!-- Firebase Compatibility SDKs for Remote Cloud Syncing -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <!-- Dhivehi & Modern English Fonts Setup -->
@@ -112,7 +113,7 @@
     .animate-marquee {
       display: inline-block;
       white-space: nowrap;
-      animation: marquee-scroll 45s linear infinite;
+      animation: marquee-scroll 36s linear infinite;
     }
 
     .animate-marquee:hover {
@@ -149,10 +150,10 @@
         </div>
         <div>
           <h1 class="font-waheed text-2xl font-bold text-sky-300 leading-tight tracking-wide">
-            ޅޮހީ ސްކޫލް
+            މާލޭ ސެކަންޑަރީ ސްކޫލް
           </h1>
           <p class="font-english text-xs text-slate-400 tracking-wider uppercase font-medium">
-            Lhohee School • Digital Notice Board
+            Male' Secondary School • Digital Notice Board
           </p>
         </div>
       </div>
@@ -176,12 +177,12 @@
         <div class="hidden xl:flex items-center gap-4 text-xs text-slate-300 bg-slate-900/60 border border-sky-500/20 px-4 py-2 rounded-xl">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-phone text-sky-400"></i>
-            <span> 6560573</span>
+            <span>+960 332-1234</span>
           </div>
           <span class="text-slate-600">|</span>
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-envelope text-sky-400"></i>
-            <span>admin@lhoheeschool.edu.mv</span>
+            <span>info@school.edu.mv</span>
           </div>
         </div>
 
@@ -274,32 +275,42 @@
     </footer>
   </div>
 
-  <!-- ADMIN ACCESS PIN LOGIN MODAL -->
-  <div id="pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
-    <div class="glass-panel p-8 rounded-3xl max-w-sm w-full border border-sky-400/40 shadow-2xl text-center relative font-english">
+  <!-- FIREBASE ADMIN SIGN-IN MODAL -->
+  <div id="admin-auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden overflow-y-auto p-4">
+    <div class="glass-panel p-8 rounded-3xl max-w-md w-full border border-sky-400/40 shadow-2xl text-center relative font-english my-auto">
       
-      <button onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+      <button onclick="closeAdminAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
       <div class="w-16 h-16 rounded-2xl bg-sky-500/20 border border-sky-400/40 text-sky-400 flex items-center justify-center text-2xl mx-auto mb-4">
-        <i class="fa-solid fa-lock"></i>
+        <i class="fa-solid fa-shield-halved"></i>
       </div>
 
-      <h3 class="text-xl font-bold text-sky-200 mb-1">Admin Authentication</h3>
-      <p class="text-xs text-slate-400 mb-6">Enter PIN code to manage notice board (Default: 1234)</p>
+      <h3 class="text-xl font-bold text-sky-200 mb-1">Admin Sign In</h3>
+      <p class="text-xs text-slate-400 mb-6">Sign in with the administrator account authorized in Firebase.</p>
 
-      <form onsubmit="handlePinSubmit(event)">
-        <input type="password" id="pin-input" maxlength="6" placeholder="••••" class="w-full text-center text-3xl font-mono tracking-widest py-3 px-4 rounded-xl bg-slate-900/90 border border-sky-500/40 text-sky-300 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30 mb-4" />
+      <form onsubmit="handleAdminSignIn(event)" class="space-y-3">
+        <input type="email" id="admin-email" autocomplete="username" required placeholder="Administrator email" class="w-full text-sm py-3 px-4 rounded-xl bg-slate-900/90 border border-sky-500/40 text-sky-100 placeholder:text-slate-500 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30" />
+        <input type="password" id="admin-password" autocomplete="current-password" required placeholder="Password" class="w-full text-sm py-3 px-4 rounded-xl bg-slate-900/90 border border-sky-500/40 text-sky-100 placeholder:text-slate-500 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30" />
         
-        <p id="pin-error" class="text-xs text-rose-400 hidden mb-4 font-sans">
-          <i class="fa-solid fa-circle-exclamation mr-1"></i> Incorrect PIN. Please try again.
-        </p>
+        <p id="auth-error" class="text-xs text-rose-400 hidden font-sans"></p>
 
         <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white font-bold text-sm shadow-lg shadow-sky-500/25 transition-all">
-          Unlock Admin Portal
+          Sign In
         </button>
       </form>
+
+      <details class="mt-5 text-left">
+        <summary class="text-xs text-sky-300 cursor-pointer hover:text-sky-200">Set up Firebase on this device</summary>
+        <form onsubmit="saveFirebaseConfigFromLogin(event)" class="mt-3 space-y-3">
+          <p class="text-xs text-slate-400">Firebase web configuration is public. Access to edit board data is controlled by Firebase Authentication and Firestore rules.</p>
+          <input type="text" id="login-fb-api-key" autocomplete="off" placeholder="Firebase API key" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
+          <input type="text" id="login-fb-project-id" autocomplete="off" placeholder="Firebase project ID" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
+          <input type="text" id="login-fb-app-id" autocomplete="off" placeholder="Firebase app ID" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
+          <button type="submit" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-sky-500/30 text-sky-200 font-bold text-xs">Save Firebase Configuration</button>
+        </form>
+      </details>
     </div>
   </div>
 
@@ -322,9 +333,11 @@
 
       <!-- Quick Action Buttons -->
       <div class="flex items-center gap-3">
+        <span id="admin-account-label" class="text-xs text-slate-400"></span>
         <button onclick="toggleFullscreen()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-semibold flex items-center gap-2">
           <i class="fa-solid fa-expand"></i> Fullscreen TV
         </button>
+        <button onclick="signOutAdmin()" class="px-3 py-1.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-200 border border-sky-400/30 text-xs font-semibold">Sign Out</button>
         <button onclick="closeAdminPortal()" class="w-9 h-9 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 flex items-center justify-center">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
@@ -570,9 +583,10 @@
           </h4>
           
           <ol class="list-decimal list-inside text-xs text-slate-300 space-y-2 leading-relaxed">
-            <li><strong>Create Firebase Project:</strong> Go to <a href="https://console.firebase.google.com" target="_blank" class="text-sky-400 underline">console.firebase.google.com</a>, create a free project, enable <strong>Firestore Database</strong> in test mode, and copy your web app credentials above.</li>
+            <li><strong>Configure Firebase:</strong> In <a href="https://console.firebase.google.com" target="_blank" class="text-sky-400 underline">Firebase Console</a>, enable Email/Password under Authentication, create your admin user, create Firestore, and use the project’s web app credentials. Never leave Firestore in test mode.</li>
             <li><strong>Host `index.html`:</strong> Create a GitHub repository (e.g., `school-noticeboard`), upload this `index.html` file, and enable <strong>GitHub Pages</strong> in repository settings.</li>
-            <li><strong>Remote Control Screen:</strong> Open the hosted web URL on your TV browser. Then open the same URL on your laptop or phone, enter PIN <code class="bg-slate-900 text-amber-300 px-1.5 py-0.5 rounded">1234</code>, and update notice slides live from anywhere!</li>
+            <li><strong>Protect Firestore:</strong> Publish the included <code>firestore.rules</code> in Firebase Console → Firestore → Rules. Replace <code>REPLACE_WITH_ADMIN_UID</code> with your admin account’s Firebase UID first; the kiosk can read notices, but only that account can write.</li>
+            <li><strong>Sign in:</strong> On each device, open the admin login, expand “Set up Firebase on this device” if needed, save the Firebase web config, then sign in with your admin email and password.</li>
           </ol>
         </div>
 
@@ -696,8 +710,9 @@
     let timerInterval = null;
     let secondsRemaining = 0;
     let isCarouselPaused = false;
-    let adminPin = "1234";
+    let firebaseAuth = null;
     let firebaseDb = null;
+    let firebaseSnapshotUnsubscribe = null;
     let activeTemplate = "image";
 
     window.onload = function() {
@@ -722,6 +737,9 @@
       if (savedFbConfig) {
         try {
           const config = JSON.parse(savedFbConfig);
+          document.getElementById('login-fb-api-key').value = config.apiKey || "";
+          document.getElementById('login-fb-project-id').value = config.projectId || "";
+          document.getElementById('login-fb-app-id').value = config.appId || "";
           initFirebaseCloud(config);
         } catch (e) {
           console.error("Firebase config parse error", e);
@@ -1056,28 +1074,62 @@
 
     /* ADMIN AUTHENTICATION MODAL */
     function openAdminModal() {
-      document.getElementById('pin-modal').classList.remove('hidden');
-      document.getElementById('pin-input').focus();
-    }
-
-    function closePinModal() {
-      document.getElementById('pin-modal').classList.add('hidden');
-      document.getElementById('pin-error').classList.add('hidden');
-      document.getElementById('pin-input').value = "";
-    }
-
-    function handlePinSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('pin-input').value;
-      if (input === adminPin) {
-        closePinModal();
+      if (firebaseAuth && firebaseAuth.currentUser) {
         openAdminPortal();
-      } else {
-        document.getElementById('pin-error').classList.remove('hidden');
+        return;
+      }
+      document.getElementById('admin-auth-modal').classList.remove('hidden');
+      document.getElementById('auth-error').classList.add('hidden');
+      document.getElementById('admin-email').focus();
+    }
+
+    function closeAdminAuthModal() {
+      document.getElementById('admin-auth-modal').classList.add('hidden');
+      document.getElementById('auth-error').classList.add('hidden');
+      document.getElementById('admin-password').value = "";
+    }
+
+    async function handleAdminSignIn(e) {
+      e.preventDefault();
+      const error = document.getElementById('auth-error');
+      if (!firebaseAuth) {
+        error.innerText = "Firebase is not configured. Expand “Set up Firebase on this device” first.";
+        error.classList.remove('hidden');
+        return;
+      }
+
+      const email = document.getElementById('admin-email').value.trim();
+      const password = document.getElementById('admin-password').value;
+      try {
+        await firebaseAuth.signInWithEmailAndPassword(email, password);
+        closeAdminAuthModal();
+        openAdminPortal();
+      } catch (err) {
+        console.error("Admin sign-in failed", err);
+        error.innerText = err.code === "auth/too-many-requests"
+          ? "Too many failed attempts. Wait a while and try again."
+          : "Sign-in failed. Check your email and password, then try again.";
+        error.classList.remove('hidden');
       }
     }
 
+    function signOutAdmin() {
+      if (!firebaseAuth) return;
+      firebaseAuth.signOut().then(() => {
+        closeAdminPortal();
+        showToast("Signed out");
+      }).catch(err => {
+        console.error("Admin sign-out failed", err);
+        showToast("Could not sign out. Please try again.", "error");
+      });
+    }
+
     function openAdminPortal() {
+      if (!firebaseAuth || !firebaseAuth.currentUser) {
+        showToast("Sign in with your Firebase admin account first.", "error");
+        return;
+      }
+      document.getElementById('admin-account-label').innerText = firebaseAuth.currentUser.email || "Admin";
       document.getElementById('admin-portal').classList.remove('hidden');
       renderSlidesManagerList();
       renderTickerItemsList();
@@ -1500,12 +1552,25 @@
       const projectId = document.getElementById('fb-project-id').value.trim();
       const appId = document.getElementById('fb-app-id').value.trim();
 
-      if (!apiKey || !projectId) {
-        showToast("Please enter valid Firebase keys", "error");
+      saveFirebaseConfigValues(apiKey, projectId, appId);
+    }
+
+    function saveFirebaseConfigFromLogin(e) {
+      e.preventDefault();
+      const apiKey = document.getElementById('login-fb-api-key').value.trim();
+      const projectId = document.getElementById('login-fb-project-id').value.trim();
+      const appId = document.getElementById('login-fb-app-id').value.trim();
+
+      saveFirebaseConfigValues(apiKey, projectId, appId);
+    }
+
+    function saveFirebaseConfigValues(apiKey, projectId, appId) {
+      if (!apiKey || !projectId || !appId) {
+        showToast("Please enter the API key, project ID, and app ID", "error");
         return;
       }
 
-      const config = { apiKey, projectId, appId };
+      const config = { apiKey, projectId, appId, authDomain: `${projectId}.firebaseapp.com` };
       localStorage.setItem("app_firebase_config", JSON.stringify(config));
       initFirebaseCloud(config);
     }
@@ -1515,6 +1580,7 @@
         if (!firebase.apps.length) {
           firebase.initializeApp(config);
         }
+        firebaseAuth = firebase.auth();
         firebaseDb = firebase.firestore();
 
         document.getElementById('cloud-status-badge').innerHTML = `
@@ -1524,7 +1590,11 @@
         document.getElementById('firebase-status-pill').innerText = "Connected";
 
         listenToFirebaseUpdates();
-        showToast("Connected to Firebase Cloud!");
+        if (document.getElementById('admin-auth-modal').classList.contains('hidden')) {
+          showToast("Connected to Firebase Cloud!");
+        } else {
+          showToast("Firebase configured. Sign in with your admin account.");
+        }
       } catch (err) {
         console.error("Firebase init error", err);
         showToast("Firebase Connection Failed", "error");
@@ -1533,16 +1603,24 @@
 
     function pushDataToFirebase() {
       if (!firebaseDb) return;
+      if (!firebaseAuth || !firebaseAuth.currentUser) {
+        showToast("Sign in to Firebase before saving cloud changes.", "error");
+        return;
+      }
       firebaseDb.collection('digital_noticeboard').doc('current_state').set({
         slides: slides,
         tickerItems: tickerItems,
         updatedAt: new Date().toISOString()
-      }).catch(err => console.error("Cloud push failed", err));
+      }).catch(err => {
+        console.error("Cloud push failed", err);
+        showToast("Cloud save failed. Check your Firestore security rules.", "error");
+      });
     }
 
     function listenToFirebaseUpdates() {
       if (!firebaseDb) return;
-      firebaseDb.collection('digital_noticeboard').doc('current_state').onSnapshot(doc => {
+      if (firebaseSnapshotUnsubscribe) firebaseSnapshotUnsubscribe();
+      firebaseSnapshotUnsubscribe = firebaseDb.collection('digital_noticeboard').doc('current_state').onSnapshot(doc => {
         if (doc.exists) {
           const data = doc.data();
           if (data.slides) slides = data.slides;
@@ -1552,6 +1630,9 @@
           renderSlidesManagerList();
           renderTickerItemsList();
         }
+      }, err => {
+        console.error("Firebase updates listener failed", err);
+        showToast("Could not load cloud notices. Check Firestore read rules.", "error");
       });
     }
 
