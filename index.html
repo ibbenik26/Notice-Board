@@ -150,10 +150,10 @@
         </div>
         <div>
           <h1 class="font-waheed text-2xl font-bold text-sky-300 leading-tight tracking-wide">
-            މާލޭ ސެކަންޑަރީ ސްކޫލް
+            ޅޮހީ ސްކޫލް
           </h1>
           <p class="font-english text-xs text-slate-400 tracking-wider uppercase font-medium">
-            Male' Secondary School • Digital Notice Board
+             Lhohee School • Digital Notice Board
           </p>
         </div>
       </div>
@@ -177,12 +177,12 @@
         <div class="hidden xl:flex items-center gap-4 text-xs text-slate-300 bg-slate-900/60 border border-sky-500/20 px-4 py-2 rounded-xl">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-phone text-sky-400"></i>
-            <span>+960 332-1234</span>
+            <span>6560573</span>
           </div>
           <span class="text-slate-600">|</span>
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-envelope text-sky-400"></i>
-            <span>info@school.edu.mv</span>
+            <span>admin@lhoheeschool.edu.mv</span>
           </div>
         </div>
 
@@ -301,16 +301,6 @@
         </button>
       </form>
 
-      <details class="mt-5 text-left">
-        <summary class="text-xs text-sky-300 cursor-pointer hover:text-sky-200">Set up Firebase on this device</summary>
-        <form onsubmit="saveFirebaseConfigFromLogin(event)" class="mt-3 space-y-3">
-          <p class="text-xs text-slate-400">Firebase web configuration is public. Access to edit board data is controlled by Firebase Authentication and Firestore rules.</p>
-          <input type="text" id="login-fb-api-key" autocomplete="off" placeholder="Firebase API key" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
-          <input type="text" id="login-fb-project-id" autocomplete="off" placeholder="Firebase project ID" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
-          <input type="text" id="login-fb-app-id" autocomplete="off" placeholder="Firebase app ID" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
-          <button type="submit" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-sky-500/30 text-sky-200 font-bold text-xs">Save Firebase Configuration</button>
-        </form>
-      </details>
     </div>
   </div>
 
@@ -585,8 +575,8 @@
           <ol class="list-decimal list-inside text-xs text-slate-300 space-y-2 leading-relaxed">
             <li><strong>Configure Firebase:</strong> In <a href="https://console.firebase.google.com" target="_blank" class="text-sky-400 underline">Firebase Console</a>, enable Email/Password under Authentication, create your admin user, create Firestore, and use the project’s web app credentials. Never leave Firestore in test mode.</li>
             <li><strong>Host `index.html`:</strong> Create a GitHub repository (e.g., `school-noticeboard`), upload this `index.html` file, and enable <strong>GitHub Pages</strong> in repository settings.</li>
-            <li><strong>Protect Firestore:</strong> Publish the included <code>firestore.rules</code> in Firebase Console → Firestore → Rules. Replace <code>REPLACE_WITH_ADMIN_UID</code> with your admin account’s Firebase UID first; the kiosk can read notices, but only that account can write.</li>
-            <li><strong>Sign in:</strong> On each device, open the admin login, expand “Set up Firebase on this device” if needed, save the Firebase web config, then sign in with your admin email and password.</li>
+            <li><strong>Protect Firestore:</strong> Publish the included <code>firestore.rules</code> in Firebase Console → Firestore → Rules. The rule allows public reads for the kiosk, but only your configured admin account UID can write.</li>
+            <li><strong>Sign in:</strong> On each device, open the admin login and sign in with your Firebase admin email and password.</li>
           </ol>
         </div>
 
@@ -737,9 +727,6 @@
       if (savedFbConfig) {
         try {
           const config = JSON.parse(savedFbConfig);
-          document.getElementById('login-fb-api-key').value = config.apiKey || "";
-          document.getElementById('login-fb-project-id').value = config.projectId || "";
-          document.getElementById('login-fb-app-id').value = config.appId || "";
           initFirebaseCloud(config);
         } catch (e) {
           console.error("Firebase config parse error", e);
@@ -1093,7 +1080,7 @@
       e.preventDefault();
       const error = document.getElementById('auth-error');
       if (!firebaseAuth) {
-        error.innerText = "Firebase is not configured. Expand “Set up Firebase on this device” first.";
+        error.innerText = "Firebase is not configured on this device. Contact the board administrator.";
         error.classList.remove('hidden');
         return;
       }
@@ -1551,15 +1538,6 @@
       const apiKey = document.getElementById('fb-api-key').value.trim();
       const projectId = document.getElementById('fb-project-id').value.trim();
       const appId = document.getElementById('fb-app-id').value.trim();
-
-      saveFirebaseConfigValues(apiKey, projectId, appId);
-    }
-
-    function saveFirebaseConfigFromLogin(e) {
-      e.preventDefault();
-      const apiKey = document.getElementById('login-fb-api-key').value.trim();
-      const projectId = document.getElementById('login-fb-project-id').value.trim();
-      const appId = document.getElementById('login-fb-app-id').value.trim();
 
       saveFirebaseConfigValues(apiKey, projectId, appId);
     }
