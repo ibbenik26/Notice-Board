@@ -112,7 +112,7 @@
     .animate-marquee {
       display: inline-block;
       white-space: nowrap;
-      animation: marquee-scroll 28s linear infinite;
+      animation: marquee-scroll 36s linear infinite;
     }
 
     .animate-marquee:hover {
@@ -131,18 +131,18 @@
 <body class="h-full bg-slate-950 text-slate-100 font-faruma overflow-hidden select-none">
 
   <!-- MAIN TV KIOSK DISPLAY VIEW -->
-  <div id="kiosk-view" class="flex flex-col h-screen w-screen bg-gradient-to-br from-slate-950 via-sky-950 to-indigo-950 relative overflow-hidden">
+  <div id="kiosk-view" class="flex flex-col h-screen w-screen bg-gradient-to-br from-slate-950 via-sky-900 to-cyan-950 relative overflow-hidden">
     
     <!-- Ambient Background Lighting Effect -->
     <div class="absolute -top-40 -right-40 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
 
     <!-- TV TOP HEADER BAR -->
     <header class="glass-header h-20 px-6 flex items-center justify-between z-20 shrink-0">
       
       <!-- School Logo & Header Title -->
       <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-sky-500/20">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-400 to-cyan-300 p-0.5 shadow-lg shadow-sky-500/20">
           <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-sky-400 text-xl font-bold">
             <i class="fa-solid fa-graduation-cap"></i>
           </div>
@@ -186,7 +186,7 @@
         </div>
 
         <!-- Live Maldivian Clock (UTC+5) -->
-        <div class="bg-gradient-to-r from-sky-900/50 to-indigo-900/50 border border-sky-400/30 px-5 py-1.5 rounded-xl text-center shadow-md">
+        <div class="bg-gradient-to-r from-sky-900/50 to-cyan-900/50 border border-sky-400/30 px-5 py-1.5 rounded-xl text-center shadow-md">
           <div id="live-time" class="text-2xl font-black text-sky-200 tracking-wider">00:00:00</div>
           <div id="live-date" class="text-[11px] text-sky-300/80 font-waheed">13 އޮކްޓޫބަރު 2026</div>
         </div>
@@ -259,7 +259,7 @@
     <footer class="h-16 glass-header border-t border-sky-400/30 flex items-center px-4 z-20 shrink-0 relative overflow-hidden">
       
       <!-- Ticker Marquee Title Label -->
-      <div class="z-10 bg-gradient-to-r from-sky-600 to-indigo-700 text-white font-waheed text-lg font-bold px-5 py-2 rounded-xl shadow-lg flex items-center gap-2 shrink-0 border border-sky-300/30">
+      <div class="z-10 bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-waheed text-lg font-bold px-5 py-2 rounded-xl shadow-lg flex items-center gap-2 shrink-0 border border-sky-200/40">
         <i class="fa-solid fa-bullhorn text-amber-300 text-base animate-pulse"></i>
         <span>ޚާއްޞަ ޚަބަރު</span>
       </div>
@@ -296,7 +296,7 @@
           <i class="fa-solid fa-circle-exclamation mr-1"></i> Incorrect PIN. Please try again.
         </p>
 
-        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 transition-all">
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white font-bold text-sm shadow-lg shadow-sky-500/25 transition-all">
           Unlock Admin Portal
         </button>
       </form>
@@ -358,7 +358,7 @@
             <h3 class="text-xl font-bold text-slate-100">Active Notice Slides</h3>
             <p class="text-xs text-slate-400">Reorder, pin, change duration timers, or hide slides from live rotation</p>
           </div>
-          <button onclick="prepareNewSlide()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-lg flex items-center gap-2 hover:opacity-90">
+          <button onclick="prepareNewSlide()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-bold text-xs shadow-lg flex items-center gap-2 hover:opacity-90">
             <i class="fa-solid fa-plus"></i> Create New Slide
           </button>
         </div>
@@ -476,7 +476,7 @@
               <button type="button" onclick="previewCurrentForm()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-600">
                 <i class="fa-solid fa-eye mr-1"></i> Refresh Preview
               </button>
-              <button type="submit" class="px-6 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-lg shadow-sky-500/20 hover:opacity-90">
+              <button type="submit" class="px-6 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-bold text-xs shadow-lg shadow-sky-500/20 hover:opacity-90">
                 <i class="fa-solid fa-floppy-disk mr-1"></i> Save Slide
               </button>
             </div>
@@ -506,7 +506,7 @@
         <!-- Add New Marquee Headline Form -->
         <form onsubmit="addTickerItem(event)" class="glass-card p-4 rounded-2xl flex items-center gap-3 border border-sky-500/30">
           <input type="text" id="new-ticker-input" required dir="rtl" class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-sky-500/30 text-sky-200 font-faruma focus:outline-none focus:border-sky-400 text-sm" placeholder="އައު ޚަބަރެއް ލިޔުއްވާ..." />
-          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-xs shadow-lg flex items-center gap-2 hover:opacity-90 shrink-0">
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-bold text-xs shadow-lg flex items-center gap-2 hover:opacity-90 shrink-0">
             <i class="fa-solid fa-plus"></i> Add Headline
           </button>
         </form>
@@ -555,7 +555,7 @@
                 <input type="text" id="fb-app-id" placeholder="1:12345678:web:abcd..." class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs focus:outline-none focus:border-sky-400" />
               </div>
               <div class="flex items-end">
-                <button type="submit" class="w-full py-2 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold text-xs shadow-lg">
+                <button type="submit" class="w-full py-2 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white font-bold text-xs shadow-lg">
                   Save & Connect Firebase Cloud
                 </button>
               </div>
@@ -907,7 +907,7 @@
               <div class="w-full overflow-hidden rounded-2xl border border-sky-400/40 glass-card shadow-2xl">
                 <table class="w-full text-right font-faruma">
                   <thead>
-                    <tr class="bg-gradient-to-r from-sky-900/80 to-indigo-900/80 border-b border-sky-400/30 text-sky-200 text-lg">
+                    <tr class="bg-gradient-to-r from-sky-900/80 to-cyan-900/80 border-b border-sky-400/30 text-sky-200 text-lg">
                       ${headers.map(h => `<th class="p-4 border-l border-sky-500/20 font-waheed">${h}</th>`).join('')}
                     </tr>
                   </thead>
