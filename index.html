@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lhohee School - Digital Notice Board | ޅޮހީ ސްކޫލް ޑިޖިޓަލް ނޯޓިސް ބޯޑު</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- FontAwesome Icons -->
@@ -14,7 +14,7 @@
   <!-- Canvas Confetti for Celebration / Honor Slide -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- Dhivehi & Modern English Fonts Setup -->
+  <!-- Dhivehi & Modern Fonts Setup -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700&display=swap');
     
@@ -42,44 +42,44 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    /* Ice Blue Glassmorphism styling */
+    /* Light Blue Glassmorphism styling */
     .glass-panel {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      box-shadow: 0 8px 32px 0 rgba(0, 195, 255, 0.12);
+      background: rgba(14, 116, 144, 0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 8px 32px 0 rgba(14, 165, 233, 0.25);
     }
 
     .glass-card {
-      background: rgba(30, 41, 59, 0.65);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
     .glass-header {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(8, 47, 73, 0.85);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.4);
     }
 
     /* Glowing borders and rings */
     .glow-cyan {
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
     }
 
     .glow-amber {
-      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.5);
     }
 
     .glow-red {
-      box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.6);
       animation: pulse-red 2s infinite;
     }
 
     @keyframes pulse-red {
-      0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
-      50% { box-shadow: 0 0 35px rgba(239, 68, 68, 0.8); }
+      0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 45px rgba(239, 68, 68, 0.85); }
     }
 
     /* Custom Scrollbar */
@@ -88,14 +88,14 @@
       height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(8, 47, 73, 0.6);
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.4);
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(56, 189, 248, 0.6);
+      background: rgba(56, 189, 248, 0.8);
     }
 
     /* Ticker Marquee Animation */
@@ -119,55 +119,55 @@
 <body class="h-full bg-slate-950 text-slate-100 font-faruma overflow-hidden select-none">
 
   <!-- ================= MAIN TV KIOSK DISPLAY VIEW ================= -->
-  <div id="kiosk-view" class="flex flex-col h-screen w-screen bg-gradient-to-br from-slate-950 via-sky-900 to-cyan-950 relative overflow-hidden">
+  <div id="kiosk-view" class="flex flex-col h-screen w-screen bg-gradient-to-br from-slate-950 via-sky-950 to-blue-950 relative overflow-hidden">
     
-    <!-- Ambient Background Effects -->
-    <div class="absolute -top-40 -right-40 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Light Blue Ambient Glows -->
+    <div class="absolute -top-32 -right-32 w-[500px] h-[500px] bg-sky-400/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-[120px] pointer-events-none"></div>
 
     <!-- TV TOP HEADER BAR -->
     <header class="glass-header h-20 px-6 flex items-center justify-between z-20 shrink-0">
       
       <!-- School Logo & Header Title -->
       <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-400 to-cyan-300 p-0.5 shadow-lg shadow-sky-500/20">
-          <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-sky-400 text-xl font-bold">
+        <div class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-sky-400 via-cyan-300 to-blue-500 p-0.5 shadow-lg shadow-sky-500/30">
+          <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-sky-300 text-2xl font-bold">
             <i class="fa-solid fa-graduation-cap"></i>
           </div>
         </div>
         <div>
-          <h1 class="font-waheed text-2xl font-bold text-sky-300 leading-tight tracking-wide flex items-center gap-2">
+          <h1 class="font-waheed text-3xl font-bold text-sky-200 leading-tight tracking-wide flex items-center gap-3">
             ޅޮހީ ސްކޫލް
-            <span id="lan-status-badge" class="font-english text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-semibold">LAN ONLINE</span>
+            <span id="lan-status-badge" class="font-english text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-semibold tracking-normal">LAN ONLINE</span>
           </h1>
-          <p class="font-english text-xs text-slate-400 tracking-wider uppercase font-medium">
+          <p class="font-english text-xs text-sky-300/80 tracking-widest uppercase font-semibold">
              Lhohee School • Digital Notice Board
           </p>
         </div>
       </div>
 
-      <!-- Live Weather, Contact & Clock Widget -->
+      <!-- Weather, Contact & Clock Widgets -->
       <div class="flex items-center gap-6 dir-ltr font-english">
         
-        <!-- Live Weather Widget -->
-        <div id="weather-widget" class="flex items-center gap-3 bg-slate-900/60 border border-sky-500/20 px-4 py-2 rounded-xl">
-          <i id="weather-icon" class="fa-solid fa-cloud-sun text-sky-400 text-2xl"></i>
+        <!-- Live Open-Meteo Weather Widget -->
+        <div id="weather-widget" class="flex items-center gap-3 bg-sky-950/60 border border-sky-400/30 px-4 py-2 rounded-xl shadow-inner">
+          <i id="weather-icon" class="fa-solid fa-cloud-sun text-sky-300 text-2xl"></i>
           <div>
             <div class="flex items-center gap-1">
               <span id="weather-temp" class="text-lg font-bold text-slate-100">31°C</span>
-              <span class="text-xs text-sky-300/80">Malé, MV</span>
+              <span class="text-xs text-sky-300">Malé, MV</span>
             </div>
-            <p id="weather-desc" class="text-[10px] text-slate-400 leading-none">Sunny</p>
+            <p id="weather-desc" class="text-[10px] text-sky-200/70 leading-none">Sunny</p>
           </div>
         </div>
 
         <!-- School Contact Info -->
-        <div class="hidden xl:flex items-center gap-4 text-xs text-slate-300 bg-slate-900/60 border border-sky-500/20 px-4 py-2 rounded-xl">
+        <div class="hidden xl:flex items-center gap-4 text-xs text-sky-100 bg-sky-950/60 border border-sky-400/30 px-4 py-2 rounded-xl">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-phone text-sky-400"></i>
             <span>6560573</span>
           </div>
-          <span class="text-slate-600">|</span>
+          <span class="text-sky-500/50">|</span>
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-envelope text-sky-400"></i>
             <span>admin@lhoheeschool.edu.mv</span>
@@ -175,32 +175,32 @@
         </div>
 
         <!-- Live Clock -->
-        <div class="bg-gradient-to-r from-sky-900/50 to-cyan-900/50 border border-sky-400/30 px-5 py-1.5 rounded-xl text-center shadow-md">
-          <div id="live-time" class="text-2xl font-black text-sky-200 tracking-wider">00:00:00</div>
-          <div id="live-date" class="text-[11px] text-sky-300/80 font-waheed">15 އޮކްޓޫބަރު 2026</div>
+        <div class="bg-gradient-to-r from-sky-900/80 to-cyan-900/80 border border-sky-400/40 px-5 py-1.5 rounded-xl text-center shadow-lg shadow-sky-900/40">
+          <div id="live-time" class="text-2xl font-black text-sky-100 tracking-wider">00:00:00</div>
+          <div id="live-date" class="text-[11px] text-sky-200 font-waheed">15 އޮކްޓޫބަރު 2026</div>
         </div>
 
         <!-- Admin Portal Trigger Button -->
-        <button onclick="openAdminAuthModal()" title="Open Admin Panel" class="w-10 h-10 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-400/30 text-sky-300 flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md">
-          <i class="fa-solid fa-gear text-lg"></i>
+        <button onclick="openAdminAuthModal()" title="Open Admin Panel" class="w-11 h-11 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-200 flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-md">
+          <i class="fa-solid fa-gear text-xl"></i>
         </button>
 
       </div>
     </header>
 
-    <!-- SLIDE DISPLAY MAIN STAGE AREA -->
-    <main class="flex-1 relative p-6 flex items-center justify-center overflow-hidden">
+    <!-- SLIDE DISPLAY MAIN STAGE AREA (EXPANDED AREA, TIGHT PADDING) -->
+    <main class="flex-1 relative p-3 md:p-4 flex items-center justify-center overflow-hidden">
       
       <!-- Slide Container Glass Card -->
-      <div class="w-full h-full max-w-7xl glass-panel rounded-3xl relative overflow-hidden flex flex-col justify-between p-6 border border-sky-400/30 shadow-2xl">
+      <div class="w-full h-full glass-panel rounded-2xl relative overflow-hidden flex flex-col justify-between p-4 border-2 border-sky-400/40 shadow-2xl">
         
         <!-- TOP SLIDE HEADER & TIMER PROGRESS -->
-        <div class="flex items-center justify-between border-b border-sky-500/20 pb-3 mb-2 z-10">
+        <div class="flex items-center justify-between border-b border-sky-400/25 pb-2 mb-2 z-10">
           
-          <!-- Slide Type / Category Badge -->
+          <!-- Slide Category Badge -->
           <div class="flex items-center gap-3">
-            <span id="slide-category-badge" class="px-4 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-sm font-bold flex items-center gap-2">
-              <i id="slide-icon" class="fa-solid fa-bullhorn"></i>
+            <span id="slide-category-badge" class="px-4 py-1 rounded-full bg-sky-400/20 border border-sky-300/40 text-sky-200 text-sm font-bold flex items-center gap-2">
+              <i id="slide-icon" class="fa-solid fa-bullhorn text-sky-300"></i>
               <span id="slide-category-text">ޚާއްޞަ އިޢުލާން</span>
             </span>
             <span id="slide-pinned-indicator" class="hidden px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold">
@@ -208,13 +208,13 @@
             </span>
           </div>
 
-          <!-- Slide Counter & Controls -->
-          <div class="flex items-center gap-4 dir-ltr font-english">
-            <span id="slide-counter-badge" class="text-xs text-sky-300/80 bg-slate-900/80 px-3 py-1 rounded-lg border border-sky-500/20">
+          <!-- Slide Counter & Carousel Controls -->
+          <div class="flex items-center gap-3 dir-ltr font-english">
+            <span id="slide-counter-badge" class="text-xs text-sky-200 bg-sky-950/80 px-3 py-1 rounded-lg border border-sky-400/30">
               Slide 1 of 1
             </span>
 
-            <button onclick="toggleCarouselPause()" id="pause-btn" class="w-8 h-8 rounded-lg bg-slate-900/80 border border-sky-500/20 text-sky-300 hover:text-white flex items-center justify-center text-xs">
+            <button onclick="toggleCarouselPause()" id="pause-btn" class="w-8 h-8 rounded-lg bg-sky-950/80 border border-sky-400/30 text-sky-300 hover:text-white flex items-center justify-center text-xs">
               <i class="fa-solid fa-pause"></i>
             </button>
           </div>
@@ -223,54 +223,54 @@
 
         <!-- DYNAMIC SLIDE CONTENT DISPLAY AREA -->
         <div id="slide-content-stage" class="flex-1 flex flex-col justify-center items-center relative overflow-hidden z-10 transition-all duration-500 w-full h-full">
-          <!-- Active slide content dynamically rendered here -->
+          <!-- Active slide template HTML renders here -->
         </div>
 
         <!-- MANUAL NAVIGATION CONTROLS -->
-        <button onclick="prevSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 hover:bg-sky-600/80 text-sky-300 border border-sky-400/40 flex items-center justify-center transition-all opacity-40 hover:opacity-100 z-20">
-          <i class="fa-solid fa-chevron-right text-lg"></i>
+        <button onclick="prevSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-sky-950/80 hover:bg-sky-500/80 text-sky-200 border border-sky-300/40 flex items-center justify-center transition-all opacity-30 hover:opacity-100 z-20">
+          <i class="fa-solid fa-chevron-right text-xl"></i>
         </button>
-        <button onclick="nextSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 hover:bg-sky-600/80 text-sky-300 border border-sky-400/40 flex items-center justify-center transition-all opacity-40 hover:opacity-100 z-20">
-          <i class="fa-solid fa-chevron-left text-lg"></i>
+        <button onclick="nextSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-sky-950/80 hover:bg-sky-500/80 text-sky-200 border border-sky-300/40 flex items-center justify-center transition-all opacity-30 hover:opacity-100 z-20">
+          <i class="fa-solid fa-chevron-left text-xl"></i>
         </button>
 
       </div>
     </main>
 
     <!-- BOTTOM TICKER MARQUEE BAR -->
-    <footer class="h-16 glass-header border-t border-sky-400/30 flex items-center px-4 z-20 shrink-0 relative overflow-hidden">
-      <div class="z-10 bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-waheed text-lg font-bold px-5 py-2 rounded-xl shadow-lg flex items-center gap-2 shrink-0 border border-sky-200/40">
+    <footer class="h-16 glass-header border-t border-sky-400/40 flex items-center px-4 z-20 shrink-0 relative overflow-hidden">
+      <div class="z-10 bg-gradient-to-r from-sky-500 via-cyan-400 to-blue-500 text-white font-waheed text-lg font-bold px-5 py-2 rounded-xl shadow-lg flex items-center gap-2 shrink-0 border border-sky-200/50">
         <i class="fa-solid fa-bullhorn text-amber-300 text-base animate-pulse"></i>
         <span>ޚާއްޞަ ޚަބަރު</span>
       </div>
 
       <div class="flex-1 overflow-hidden relative ml-4 flex items-center h-full">
         <div id="ticker-marquee-container" class="animate-marquee font-faruma text-xl text-sky-100 font-medium tracking-wide flex items-center whitespace-nowrap">
-          <!-- Ticker text rendered here -->
+          <!-- Marquee text rendered here -->
         </div>
       </div>
     </footer>
   </div>
 
   <!-- ================= ADMIN AUTH PIN MODAL ================= -->
-  <div id="admin-auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
-    <div class="glass-panel p-8 rounded-3xl max-w-md w-full border border-sky-400/40 shadow-2xl text-center relative font-english my-auto">
+  <div id="admin-auth-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+    <div class="glass-panel p-8 rounded-3xl max-w-md w-full border border-sky-400/50 shadow-2xl text-center relative font-english my-auto">
       
       <button onclick="closeAdminAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
-      <div class="w-16 h-16 rounded-2xl bg-sky-500/20 border border-sky-400/40 text-sky-400 flex items-center justify-center text-2xl mx-auto mb-4">
+      <div class="w-16 h-16 rounded-2xl bg-sky-500/20 border border-sky-400/40 text-sky-300 flex items-center justify-center text-2xl mx-auto mb-4">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
 
-      <h3 class="text-xl font-bold text-sky-200 mb-1">Admin Sign In</h3>
-      <p class="text-xs text-slate-400 mb-6">Enter PIN to access notice board management portal.</p>
+      <h3 class="text-xl font-bold text-sky-100 mb-1">Admin Sign In</h3>
+      <p class="text-xs text-sky-200/70 mb-6">Enter PIN to access notice board management portal.</p>
 
       <div class="space-y-4">
         <input type="password" id="admin-pin-input" maxlength="6" placeholder="••••" class="w-full text-center text-2xl tracking-widest py-3 px-4 rounded-xl bg-slate-900 border border-sky-500/40 text-sky-100 focus:outline-none focus:border-sky-400">
         <p id="pin-error-msg" class="text-xs text-rose-400 hidden">Incorrect PIN. Try again. (Default: 1234)</p>
-        <button onclick="verifyAdminPin()" class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white font-bold text-sm shadow-lg">
+        <button onclick="verifyAdminPin()" class="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-400 hover:from-sky-400 hover:to-cyan-300 text-white font-bold text-sm shadow-lg shadow-sky-500/30">
           Log In To Admin Portal
         </button>
       </div>
@@ -282,13 +282,13 @@
   <div id="admin-portal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-lg z-50 flex flex-col hidden font-english">
     
     <!-- Admin Header Bar -->
-    <header class="glass-header h-16 px-6 flex items-center justify-between border-b border-sky-500/30">
+    <header class="glass-header h-16 px-6 flex items-center justify-between border-b border-sky-400/40">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-sky-500/20 border border-sky-400/40 text-sky-400 flex items-center justify-center font-bold">
+        <div class="w-9 h-9 rounded-lg bg-sky-500/20 border border-sky-400/40 text-sky-300 flex items-center justify-center font-bold">
           <i class="fa-solid fa-sliders"></i>
         </div>
         <div>
-          <h2 class="text-lg font-bold text-sky-200">Notice Board Admin Portal</h2>
+          <h2 class="text-lg font-bold text-sky-100">Notice Board Admin Portal</h2>
           <span id="portal-lan-badge" class="text-[11px] text-emerald-400 flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Connected to School LAN Server
           </span>
@@ -357,40 +357,40 @@
               <span class="text-[10px] text-slate-400 font-waheed">ފުރިހަމަ ފޮޓޯ</span>
             </button>
 
-            <button type="button" onclick="selectTemplate('table')" id="tpl-btn-table" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
-              <i class="fa-solid fa-table text-2xl block mb-1"></i>
-              <span class="text-xs font-bold block">2. Data Table</span>
-              <span class="text-[10px] text-slate-400 font-waheed">ތާވަލު</span>
-            </button>
-
-            <button type="button" onclick="selectTemplate('dhua')" id="tpl-btn-dhua" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
-              <i class="fa-solid fa-hands-praying text-2xl block mb-1"></i>
-              <span class="text-xs font-bold block">3. Dhua of Day</span>
-              <span class="text-[10px] text-slate-400 font-waheed">ދުވަހުގެ ދުޢާ</span>
-            </button>
-
             <button type="button" onclick="selectTemplate('congrats')" id="tpl-btn-congrats" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
               <i class="fa-solid fa-trophy text-2xl block mb-1"></i>
-              <span class="text-xs font-bold block">4. Honor Poster</span>
+              <span class="text-xs font-bold block">2. Big Honor Poster</span>
               <span class="text-[10px] text-slate-400 font-waheed">މަރުޙަބާ</span>
             </button>
 
-            <button type="button" onclick="selectTemplate('alert')" id="tpl-btn-alert" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
-              <i class="fa-solid fa-triangle-exclamation text-2xl block mb-1"></i>
-              <span class="text-xs font-bold block">5. Urgent Alert</span>
-              <span class="text-[10px] text-slate-400 font-waheed">ކުއްލި އެންގުން</span>
+            <button type="button" onclick="selectTemplate('table')" id="tpl-btn-table" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
+              <i class="fa-solid fa-table text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">3. Data Table</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ތާވަލު</span>
             </button>
 
-            <button type="button" onclick="selectTemplate('infographic')" id="tpl-btn-infographic" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
-              <i class="fa-solid fa-chart-pie text-2xl block mb-1"></i>
-              <span class="text-xs font-bold block">6. Infographic</span>
-              <span class="text-[10px] text-slate-400 font-waheed">އިންފޯގްރާފިކްސް</span>
+            <button type="button" onclick="selectTemplate('countdown')" id="tpl-btn-countdown" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
+              <i class="fa-solid fa-stopwatch text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">4. Countdown</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ކައުންޓްޑައުން</span>
             </button>
 
             <button type="button" onclick="selectTemplate('timeline')" id="tpl-btn-timeline" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
               <i class="fa-solid fa-timeline text-2xl block mb-1"></i>
-              <span class="text-xs font-bold block">7. Timeline</span>
+              <span class="text-xs font-bold block">5. Timeline</span>
               <span class="text-[10px] text-slate-400 font-waheed">ޓައިމްލައިން</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('dhua')" id="tpl-btn-dhua" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
+              <i class="fa-solid fa-hands-praying text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">6. Dhua of Day</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ދުވަހުގެ ދުޢާ</span>
+            </button>
+
+            <button type="button" onclick="selectTemplate('alert')" id="tpl-btn-alert" class="p-3 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-400 text-center hover:border-sky-400">
+              <i class="fa-solid fa-triangle-exclamation text-2xl block mb-1"></i>
+              <span class="text-xs font-bold block">7. Urgent Alert</span>
+              <span class="text-[10px] text-slate-400 font-waheed">ކުއްލި އެންގުން</span>
             </button>
           </div>
         </div>
@@ -479,17 +479,6 @@
     let slides = [
       {
         id: "s1",
-        type: "dhua",
-        title: "ދުވަހުގެ ދުޢާ",
-        category: "ދުވަހުގެ ދުޢާ",
-        duration: 10,
-        pinned: false,
-        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
-        dhivehi: "އޭ ހަދާމާބޮޑުކުރެއްވި ރަސްކަލާކޯ! ފައިދާހުރި އިލްމާއި، ހަލާލު ރިޒްޤާއި، ޤަބޫލުކުރައްވާނެ ޢަމަލު ތިމަންއަޅާއަށް މިންވަރުކުރައްވާނދޭވެ.",
-        benefit: "ހެނދުނުގެ ވަޤުތުގައި މި ދުޢާ ކިޔެވުމަކީ އުނގެނުމަށާއި މަސައްކަތުގައި ބަރަކާތް ލިބޭކަމެކެވެ."
-      },
-      {
-        id: "s2",
         type: "congrats",
         title: "އެންމެ ރަނގަޅު ދަރިވަރުގެ ވަނަ",
         category: "މަރުޙަބާ",
@@ -497,7 +486,17 @@
         pinned: false,
         studentName: "ޢާއިޝަތު އަލީ",
         achievement: "ޤައުމީ ޤުރްއާން މުބާރާތުން 1 ވަނަ ހޯދާފައިވާތީ މަރުޙަބާ ކިޔަމެވެ!",
-        imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
+        imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: "s2",
+        type: "countdown",
+        title: "ސާނަވީ އިމްތިޙާން ފެށެން ބާކީ",
+        category: "ކައުންޓްޑައުން",
+        duration: 12,
+        pinned: false,
+        targetDate: "2026-11-01T08:00",
+        subtitle: "ހުރިހާ ދަރިވަރުންނަށް ކާމިޔާބީއަށް އެދެމެވެ!"
       },
       {
         id: "s3",
@@ -523,6 +522,7 @@
     let currentSlideIndex = 0;
     let slideTimer = null;
     let isPaused = false;
+    let countdownInterval = null;
 
     // --- LAN SERVER SYNC FUNCTIONS ---
     async function syncLANNotices() {
@@ -580,20 +580,20 @@
       const b1 = document.getElementById('lan-status-badge');
       const b2 = document.getElementById('portal-lan-badge');
       if (online) {
-        if (b1) { b1.className = "font-english text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-semibold"; b1.innerText = "LAN ONLINE"; }
+        if (b1) { b1.className = "font-english text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-semibold"; b1.innerText = "LAN ONLINE"; }
         if (b2) { b2.className = "text-[11px] text-emerald-400 flex items-center gap-1.5"; b2.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Connected to School LAN Server'; }
       } else {
-        if (b1) { b1.className = "font-english text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 font-semibold"; b1.innerText = "LOCAL MODE"; }
+        if (b1) { b1.className = "font-english text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 font-semibold"; b1.innerText = "LOCAL MODE"; }
         if (b2) { b2.className = "text-[11px] text-amber-400 flex items-center gap-1.5"; b2.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> Offline Standalone Mode'; }
       }
     }
 
-    // Check for LAN updates every 3 seconds
     setInterval(syncLANNotices, 3000);
 
     // --- KIOSK PRESENTATION ROTATION ENGINE ---
     function startSlideLoop() {
       if (slideTimer) clearTimeout(slideTimer);
+      if (countdownInterval) clearInterval(countdownInterval);
       if (isPaused) return;
 
       renderActiveSlide();
@@ -637,7 +637,7 @@
       const pinnedInd = document.getElementById('slide-pinned-indicator');
 
       if (!slides || slides.length === 0) {
-        stage.innerHTML = `<div class="text-center my-auto text-slate-400 text-2xl font-faruma">އެއްވެސް ނޯޓިސްއެއް ނެތެވެ.</div>`;
+        stage.innerHTML = `<div class="text-center my-auto text-sky-200/70 text-2xl font-faruma">އެއްވެސް ނޯޓިސްއެއް ނެތެވެ.</div>`;
         return;
       }
 
@@ -651,83 +651,157 @@
 
       let html = '';
 
-      // EXPANDED 16:9 POWERPOINT & POSTER IMAGE SCALING
+      // 1. FULL POSTER / PPT IMAGE TEMPLATE
       if (slide.type === 'image') {
         html = `
           <div class="w-full h-full flex items-center justify-center overflow-hidden p-0 relative">
-            <img src="${slide.imageUrl}" class="w-full h-full object-contain rounded-2xl shadow-2xl transition-transform duration-300">
+            <img src="${slide.imageUrl}" class="w-full h-full object-contain rounded-xl shadow-2xl transition-transform duration-300">
           </div>`;
-      } else if (slide.type === 'dhua') {
+      } 
+      
+      // 2. BIG CONGRATULATIONS / AWARD POSTER TEMPLATE (EXPANDED TO FULL STAGE)
+      else if (slide.type === 'congrats') {
         html = `
-          <div class="flex-1 flex flex-col justify-center items-center text-center px-6 space-y-6 w-full">
-            <div class="text-amber-300 text-4xl font-serif leading-relaxed" dir="rtl">${slide.arabic}</div>
-            <div class="text-sky-100 text-3xl font-medium leading-relaxed max-w-4xl" dir="rtl">${slide.dhivehi}</div>
-            ${slide.benefit ? `<div class="mt-4 bg-slate-900/80 p-4 rounded-2xl border border-sky-400/30 text-sky-300 text-xl max-w-3xl" dir="rtl">💡 ${slide.benefit}</div>` : ''}
-          </div>`;
-      } else if (slide.type === 'congrats') {
-        html = `
-          <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-8 items-center px-6 w-full">
-            <div class="flex justify-center">
-              <img src="${slide.imageUrl}" class="w-72 h-72 object-cover rounded-3xl border-4 border-amber-400 shadow-2xl glow-amber">
+          <div class="w-full h-full flex flex-col md:flex-row items-center justify-between gap-6 p-2 md:p-4" dir="rtl">
+            <div class="w-full md:w-5/12 h-full flex items-center justify-center">
+              <img src="${slide.imageUrl}" class="max-h-[72vh] w-auto max-w-full object-cover rounded-3xl border-4 border-amber-400 shadow-2xl glow-amber">
             </div>
-            <div class="md:col-span-2 space-y-4 text-right" dir="rtl">
-              <h2 class="font-waheed text-4xl text-amber-400 font-bold">${slide.title}</h2>
-              <h3 class="text-5xl text-white font-extrabold">${slide.studentName}</h3>
-              <p class="text-2xl text-sky-200 leading-relaxed">${slide.achievement}</p>
+            <div class="w-full md:w-7/12 flex flex-col justify-center space-y-5 text-right px-4">
+              <div class="inline-block bg-amber-400/20 border border-amber-400/40 px-4 py-1.5 rounded-full text-amber-300 font-bold text-lg w-max">
+                🏆 ${slide.title}
+              </div>
+              <h2 class="font-waheed text-5xl md:text-6xl text-white font-black leading-tight drop-shadow-md">
+                ${slide.studentName}
+              </h2>
+              <p class="text-2xl md:text-3xl text-sky-100 font-medium leading-relaxed bg-sky-950/40 p-6 rounded-2xl border border-sky-400/30">
+                ${slide.achievement}
+              </p>
             </div>
           </div>`;
-        confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
-      } else if (slide.type === 'table') {
-        let headersHtml = (slide.headers || []).map(h => `<th class="p-4 bg-sky-600/40 text-sky-200 border border-sky-400/30 text-2xl font-bold">${h}</th>`).join('');
+        confetti({ particleCount: 90, spread: 90, origin: { y: 0.5 } });
+      }
+
+      // 3. VIVID DATA TABLE TEMPLATE
+      else if (slide.type === 'table') {
+        let headersHtml = (slide.headers || []).map(h => `<th class="p-4 bg-sky-600/50 text-sky-100 border border-sky-400/40 text-2xl font-bold">${h}</th>`).join('');
         let rowsHtml = (slide.rows || []).map(r => `
-          <tr class="hover:bg-slate-800/50">
-            ${r.map(cell => `<td class="p-4 border border-sky-400/20 text-center text-2xl text-slate-100">${cell}</td>`).join('')}
+          <tr class="hover:bg-sky-900/40">
+            ${r.map(cell => `<td class="p-4 border border-sky-400/30 text-center text-2xl text-slate-100 font-medium">${cell}</td>`).join('')}
           </tr>`).join('');
 
         html = `
-          <div class="flex-1 flex flex-col justify-center space-y-6 w-full" dir="rtl">
-            <h2 class="font-waheed text-4xl text-sky-300 text-center font-bold">${slide.title}</h2>
-            <div class="overflow-hidden rounded-2xl border border-sky-400/30 shadow-xl">
+          <div class="flex-1 flex flex-col justify-center space-y-4 w-full h-full p-2" dir="rtl">
+            <h2 class="font-waheed text-4xl text-sky-200 text-center font-bold">${slide.title}</h2>
+            <div class="overflow-hidden rounded-2xl border-2 border-sky-400/40 shadow-2xl bg-slate-950/60">
               <table class="w-full border-collapse">
                 <thead><tr>${headersHtml}</tr></thead>
                 <tbody>${rowsHtml}</tbody>
               </table>
             </div>
           </div>`;
-      } else if (slide.type === 'alert') {
-        html = `
-          <div class="flex-1 flex flex-col justify-center items-center text-center p-8 bg-rose-950/40 border-2 border-rose-500/60 rounded-3xl space-y-6 glow-red w-full" dir="rtl">
-            <div class="text-rose-500 text-6xl animate-bounce"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <h2 class="font-waheed text-5xl text-rose-400 font-extrabold">${slide.title}</h2>
-            <p class="text-3xl text-slate-100 leading-relaxed max-w-4xl">${slide.message}</p>
-          </div>`;
-      } else if (slide.type === 'infographic') {
-        let statsHtml = (slide.stats || []).map(st => `
-          <div class="glass-card p-6 rounded-2xl border border-sky-400/30 text-center space-y-2">
-            <div class="text-5xl font-black text-amber-400">${st.number}</div>
-            <div class="text-xl text-sky-200">${st.label}</div>
-          </div>`).join('');
+      }
 
+      // 4. EVENT COUNTDOWN TEMPLATE
+      else if (slide.type === 'countdown') {
         html = `
-          <div class="flex-1 flex flex-col justify-center space-y-8 w-full" dir="rtl">
-            <h2 class="font-waheed text-4xl text-sky-300 text-center font-bold">${slide.title}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto w-full">${statsHtml}</div>
+          <div class="flex-1 flex flex-col justify-center items-center text-center space-y-8 w-full h-full p-4" dir="rtl">
+            <h2 class="font-waheed text-5xl text-sky-200 font-extrabold">${slide.title}</h2>
+            
+            <div class="grid grid-cols-4 gap-4 md:gap-8 font-english max-w-4xl w-full" dir="ltr">
+              <div class="glass-card p-6 rounded-3xl border-2 border-sky-400/40 text-center glow-cyan">
+                <span id="cd-days" class="block text-6xl md:text-7xl font-black text-sky-300">00</span>
+                <span class="text-xs md:text-sm text-sky-200 uppercase font-semibold">Days</span>
+              </div>
+              <div class="glass-card p-6 rounded-3xl border-2 border-sky-400/40 text-center glow-cyan">
+                <span id="cd-hours" class="block text-6xl md:text-7xl font-black text-sky-300">00</span>
+                <span class="text-xs md:text-sm text-sky-200 uppercase font-semibold">Hours</span>
+              </div>
+              <div class="glass-card p-6 rounded-3xl border-2 border-sky-400/40 text-center glow-cyan">
+                <span id="cd-mins" class="block text-6xl md:text-7xl font-black text-sky-300">00</span>
+                <span class="text-xs md:text-sm text-sky-200 uppercase font-semibold">Minutes</span>
+              </div>
+              <div class="glass-card p-6 rounded-3xl border-2 border-sky-400/40 text-center glow-cyan">
+                <span id="cd-secs" class="block text-6xl md:text-7xl font-black text-amber-400 animate-pulse">00</span>
+                <span class="text-xs md:text-sm text-amber-300 uppercase font-semibold">Seconds</span>
+              </div>
+            </div>
+
+            ${slide.subtitle ? `<p class="text-2xl text-sky-100 font-medium">${slide.subtitle}</p>` : ''}
           </div>`;
-      } else if (slide.type === 'timeline') {
+
+        startCountdownTimer(slide.targetDate);
+      }
+
+      // 5. PROGRAM TIMELINE TEMPLATE
+      else if (slide.type === 'timeline') {
         let itemsHtml = (slide.events || []).map(ev => `
-          <div class="glass-card p-4 rounded-xl border border-sky-400/30 flex items-center justify-between gap-4">
-            <span class="text-amber-400 font-bold text-xl">${ev.time}</span>
-            <span class="text-white text-2xl flex-1 text-right">${ev.title}</span>
+          <div class="glass-card p-4 rounded-2xl border border-sky-400/30 flex items-center justify-between gap-6">
+            <span class="text-amber-300 font-bold text-2xl font-english bg-amber-400/10 px-4 py-1 rounded-xl border border-amber-400/30">${ev.time}</span>
+            <span class="text-white text-3xl font-medium flex-1 text-right">${ev.title}</span>
           </div>`).join('');
 
         html = `
-          <div class="flex-1 flex flex-col justify-center space-y-6 w-full max-w-4xl mx-auto" dir="rtl">
-            <h2 class="font-waheed text-4xl text-sky-300 text-center font-bold">${slide.title}</h2>
-            <div class="space-y-3">${itemsHtml}</div>
+          <div class="flex-1 flex flex-col justify-center space-y-6 w-full max-w-5xl mx-auto h-full p-4" dir="rtl">
+            <h2 class="font-waheed text-4xl text-sky-200 text-center font-bold">${slide.title}</h2>
+            <div class="space-y-4">${itemsHtml}</div>
+          </div>`;
+      }
+
+      // 6. DHUA OF THE DAY TEMPLATE
+      else if (slide.type === 'dhua') {
+        html = `
+          <div class="flex-1 flex flex-col justify-center items-center text-center px-6 space-y-6 w-full h-full">
+            <div class="text-amber-300 text-4xl font-serif leading-relaxed" dir="rtl">${slide.arabic}</div>
+            <div class="text-sky-100 text-3xl font-medium leading-relaxed max-w-4xl" dir="rtl">${slide.dhivehi}</div>
+            ${slide.benefit ? `<div class="mt-4 bg-sky-950/80 p-4 rounded-2xl border border-sky-400/40 text-sky-200 text-xl max-w-3xl" dir="rtl">💡 ${slide.benefit}</div>` : ''}
+          </div>`;
+      }
+
+      // 7. URGENT ALERT TEMPLATE
+      else if (slide.type === 'alert') {
+        html = `
+          <div class="flex-1 flex flex-col justify-center items-center text-center p-8 bg-rose-950/40 border-2 border-rose-500/70 rounded-3xl space-y-6 glow-red w-full h-full" dir="rtl">
+            <div class="text-rose-400 text-7xl animate-bounce"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h2 class="font-waheed text-5xl text-rose-300 font-extrabold">${slide.title}</h2>
+            <p class="text-3xl text-slate-100 leading-relaxed max-w-4xl">${slide.message}</p>
           </div>`;
       }
 
       stage.innerHTML = html;
+    }
+
+    function startCountdownTimer(targetStr) {
+      if (!targetStr) return;
+      const targetDate = new Date(targetStr).getTime();
+
+      function updateCD() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          const d = document.getElementById('cd-days');
+          if (d) d.innerText = "00";
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const dEl = document.getElementById('cd-days');
+        const hEl = document.getElementById('cd-hours');
+        const mEl = document.getElementById('cd-mins');
+        const sEl = document.getElementById('cd-secs');
+
+        if (dEl) dEl.innerText = String(days).padStart(2, '0');
+        if (hEl) hEl.innerText = String(hours).padStart(2, '0');
+        if (mEl) mEl.innerText = String(mins).padStart(2, '0');
+        if (sEl) sEl.innerText = String(secs).padStart(2, '0');
+      }
+
+      updateCD();
+      countdownInterval = setInterval(updateCD, 1000);
     }
 
     function renderTickerMarquee() {
@@ -735,7 +809,7 @@
       container.innerHTML = tickerItems.map(t => `<span class="mx-8">${t}</span> • `).join('');
     }
 
-    // --- DIRECT IMAGE FILE UPLOAD HANDLER ---
+    // --- DIRECT FILE UPLOAD HANDLER ---
     function handleFileUpload(evt) {
       const file = evt.target.files[0];
       if (!file) return;
@@ -746,7 +820,7 @@
       reader.readAsDataURL(file);
     }
 
-    // --- ADMIN PORTAL UI & MANAGEMENT ---
+    // --- ADMIN PORTAL LOGIC ---
     function openAdminAuthModal() {
       document.getElementById('admin-auth-modal').classList.remove('hidden');
     }
@@ -808,15 +882,10 @@
       if (type === 'image') {
         fields.innerHTML = `
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Upload Poster / PPT Image File</label>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Upload Full Poster / PPT Image File</label>
             <input type="file" accept="image/*" onchange="handleFileUpload(event)" class="w-full bg-slate-900 p-2 text-xs text-slate-300 rounded-xl border border-slate-700 mb-2">
             <input type="text" id="field-image-url" placeholder="Or Image Base64 / URL" class="w-full bg-slate-900 p-2 text-xs text-slate-400 rounded-xl border border-slate-700">
           </div>`;
-      } else if (type === 'dhua') {
-        fields.innerHTML = `
-          <div><label class="block text-xs text-slate-300 mb-1">Arabic Text</label><input type="text" id="field-arabic" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>
-          <div><label class="block text-xs text-slate-300 mb-1">Dhivehi Translation</label><textarea id="field-dhivehi" rows="2" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></textarea></div>
-          <div><label class="block text-xs text-slate-300 mb-1">Benefit/Advice</label><input type="text" id="field-benefit" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>`;
       } else if (type === 'congrats') {
         fields.innerHTML = `
           <div><label class="block text-xs text-slate-300 mb-1">Student Name</label><input type="text" id="field-student" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>
@@ -831,6 +900,19 @@
           <div><label class="block text-xs text-slate-300 mb-1">Headers (Comma separated)</label><input type="text" id="field-headers" value="ތާރީޚް, މާއްދާ, ގަޑި" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>
           <div><label class="block text-xs text-slate-300 mb-1">Rows (1 line per row, comma separated values)</label><textarea id="field-rows" rows="3" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl">18 އޮކްޓޯބަރ, އިސްލާމް, 08:00
 19 އޮކްޓޯބަރ, ދިވެހި, 08:00</textarea></div>`;
+      } else if (type === 'countdown') {
+        fields.innerHTML = `
+          <div><label class="block text-xs text-slate-300 mb-1">Target Date & Time</label><input type="datetime-local" id="field-target-date" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700"></div>
+          <div><label class="block text-xs text-slate-300 mb-1">Subtitle / Note</label><input type="text" id="field-subtitle" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>`;
+      } else if (type === 'timeline') {
+        fields.innerHTML = `
+          <div><label class="block text-xs text-slate-300 mb-1">Timeline Items (1 line per event: Time, Description)</label><textarea id="field-timeline-raw" rows="4" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl">08:00, ހެނދުނު އެސެމްބްލީ
+09:00, ކުޅިވަރު މުބާރާތް ފެށުން</textarea></div>`;
+      } else if (type === 'dhua') {
+        fields.innerHTML = `
+          <div><label class="block text-xs text-slate-300 mb-1">Arabic Text</label><input type="text" id="field-arabic" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>
+          <div><label class="block text-xs text-slate-300 mb-1">Dhivehi Translation</label><textarea id="field-dhivehi" rows="2" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></textarea></div>
+          <div><label class="block text-xs text-slate-300 mb-1">Benefit/Advice</label><input type="text" id="field-benefit" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></div>`;
       } else if (type === 'alert') {
         fields.innerHTML = `
           <div><label class="block text-xs text-slate-300 mb-1">Alert Message</label><textarea id="field-message" rows="3" class="w-full bg-slate-900 p-2 text-sm text-white rounded-xl border border-slate-700" dir="rtl"></textarea></div>`;
@@ -849,10 +931,6 @@
 
       if (type === 'image') {
         newSlide.imageUrl = document.getElementById('field-image-url').value;
-      } else if (type === 'dhua') {
-        newSlide.arabic = document.getElementById('field-arabic').value;
-        newSlide.dhivehi = document.getElementById('field-dhivehi').value;
-        newSlide.benefit = document.getElementById('field-benefit').value;
       } else if (type === 'congrats') {
         newSlide.studentName = document.getElementById('field-student').value;
         newSlide.achievement = document.getElementById('field-achievement').value;
@@ -860,6 +938,19 @@
       } else if (type === 'table') {
         newSlide.headers = document.getElementById('field-headers').value.split(',').map(s => s.trim());
         newSlide.rows = document.getElementById('field-rows').value.split('\n').map(r => r.split(',').map(c => c.trim()));
+      } else if (type === 'countdown') {
+        newSlide.targetDate = document.getElementById('field-target-date').value;
+        newSlide.subtitle = document.getElementById('field-subtitle').value;
+      } else if (type === 'timeline') {
+        const raw = document.getElementById('field-timeline-raw').value.split('\n');
+        newSlide.events = raw.map(line => {
+          const parts = line.split(',');
+          return { time: parts[0] ? parts[0].trim() : '', title: parts[1] ? parts[1].trim() : '' };
+        });
+      } else if (type === 'dhua') {
+        newSlide.arabic = document.getElementById('field-arabic').value;
+        newSlide.dhivehi = document.getElementById('field-dhivehi').value;
+        newSlide.benefit = document.getElementById('field-benefit').value;
       } else if (type === 'alert') {
         newSlide.message = document.getElementById('field-message').value;
       }
